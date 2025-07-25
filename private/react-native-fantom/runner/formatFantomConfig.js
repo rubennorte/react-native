@@ -11,6 +11,7 @@
 import type {FeatureFlagValue} from '../../../packages/react-native/scripts/featureflags/types';
 import type {FantomTestConfig} from '../runner/getFantomTestConfigs';
 import type {HermesVariant} from '../runner/utils';
+import type {PartialFantomTestConfig} from './getFantomTestConfigs';
 
 import {
   FantomTestConfigHermesVariant,
@@ -53,23 +54,22 @@ function formatFantomFeatureFlag(
   return `🔐 ${flagName} = ${flagValue}`;
 }
 
-export default function formatFantomConfig(config: FantomTestConfig): string {
-  const overrides = getOverrides(config);
+function formatFantomConfigPretty(config: PartialFantomTestConfig): string {
   const parts = [];
 
-  if (overrides.mode) {
-    parts.push(formatFantomMode(overrides.mode));
+  if (config.mode) {
+    parts.push(formatFantomMode(config.mode));
   }
 
-  if (overrides.hermesVariant) {
-    parts.push(formatFantomHermesVariant(overrides.hermesVariant));
+  if (config.hermesVariant) {
+    parts.push(formatFantomHermesVariant(config.hermesVariant));
   }
 
-  if (overrides.flags) {
+  if (config.flags) {
     for (const flagType of ['common', 'jsOnly', 'reactInternal'] as const) {
-      if (overrides.flags[flagType]) {
+      if (config.flags[flagType]) {
         for (const [flagName, flagValue] of Object.entries(
-          overrides.flags[flagType],
+          config.flags[flagType],
         )) {
           parts.push(formatFantomFeatureFlag(flagName, flagValue));
         }
@@ -78,4 +78,53 @@ export default function formatFantomConfig(config: FantomTestConfig): string {
   }
 
   return parts.join(', ');
+}
+
+function formatFantomConfigShort(config: PartialFantomTestConfig): string {
+  const parts = [];
+
+  if (config.hermesVariant) {
+    parts.push((config.hermesVariant as string).toLocaleLowerCase());
+  }
+
+  if (config.mode) {
+    switch (config.mode) {
+      case FantomTestConfigMode.DevelopmentWithSource:
+        parts.push('dev');
+        break;
+      case FantomTestConfigMode.DevelopmentWithBytecode:
+        parts.push('dev-bytecode');
+        break;
+      case FantomTestConfigMode.Optimized:
+        parts.push('opt');
+        break;
+    }
+  }
+
+  if (config.flags) {
+    for (const flagType of ['common', 'jsOnly', 'reactInternal'] as const) {
+      if (config.flags[flagType]) {
+        for (const [flagName, flagValue] of Object.entries(
+          config.flags[flagType],
+        )) {
+          parts.push(`${flagName}[${String(flagValue)}]`);
+        }
+      }
+    }
+  }
+
+  return parts.join('-');
+}
+
+export default function formatFantomConfig(
+  config: FantomTestConfig,
+  options?: ?{style?: 'pretty' | 'short'},
+): string {
+  const overrides = getOverrides(config);
+
+  if (options?.style === 'short') {
+    return formatFantomConfigShort(overrides);
+  }
+
+  return formatFantomConfigPretty(overrides);
 }
