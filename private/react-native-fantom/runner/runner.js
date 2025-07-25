@@ -22,6 +22,8 @@ import type {
 
 import entrypointTemplate from './entrypoint-template';
 import * as EnvironmentOptions from './EnvironmentOptions';
+import {run as runHermesCompiler} from './executables/hermesc';
+import {run as runFantomTester} from './executables/tester';
 import formatFantomConfig from './formatFantomConfig';
 import getFantomTestConfigs from './getFantomTestConfigs';
 import {FantomTestConfigMode} from './getFantomTestConfigs';
@@ -31,14 +33,9 @@ import {
 } from './snapshotUtils';
 import {
   HermesVariant as HermesVariantEnum,
-  getBuckModesForPlatform,
-  getBuckOptionsForHermes,
   getDebugInfoFromCommandResult,
-  getHermesCompilerTarget,
   getShortHash,
   printConsoleLog,
-  runBuck2,
-  runBuck2Sync,
   runCommand,
   symbolicateStackTrace,
 } from './utils';
@@ -165,13 +162,8 @@ function generateBytecodeBundle({
   isOptimizedMode: boolean,
   hermesVariant: HermesVariant,
 }): void {
-  const hermesCompilerCommandResult = runBuck2Sync(
+  const hermesCompilerCommandResult = runHermesCompiler(
     [
-      'run',
-      ...getBuckModesForPlatform(isOptimizedMode),
-      ...getBuckOptionsForHermes(hermesVariant),
-      getHermesCompilerTarget(hermesVariant),
-      '--',
       '-emit-binary',
       isOptimizedMode ? '-O' : null,
       '-max-diagnostic-width',
@@ -180,6 +172,10 @@ function generateBytecodeBundle({
       bytecodePath,
       sourcePath,
     ].filter(Boolean),
+    {
+      isOptimizedMode,
+      hermesVariant,
+    },
   );
 
   if (hermesCompilerCommandResult.status !== 0) {
@@ -352,21 +348,10 @@ module.exports = async function runTest(
           path.join(__dirname, '..', 'build', 'tester', 'fantom_tester'),
           rnTesterCommandArgs,
         )
-      : runBuck2(
-          [
-            'run',
-            ...getBuckModesForPlatform(
-              testConfig.mode === FantomTestConfigMode.Optimized,
-            ),
-            ...getBuckOptionsForHermes(testConfig.hermesVariant),
-            '//xplat/js/react-native-github/private/react-native-fantom/tester:tester',
-            '--',
-            ...rnTesterCommandArgs,
-          ],
-          {
-            withFDB: EnvironmentOptions.debugCpp,
-          },
-        );
+      : runFantomTester(rnTesterCommandArgs, {
+          isOptimizedMode: testConfig.mode === FantomTestConfigMode.Optimized,
+          hermesVariant: testConfig.hermesVariant,
+        });
 
     const processedResult = await processRNTesterCommandResult(
       rnTesterCommandResult,
