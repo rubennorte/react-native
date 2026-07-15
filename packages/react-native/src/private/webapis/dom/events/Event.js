@@ -33,6 +33,7 @@ import {
   getEventPhase,
   getInPassiveListenerFlag,
   getIsTrusted,
+  getStopPropagationFlag,
   getTarget,
   setStopImmediatePropagationFlag,
   setStopPropagationFlag,
@@ -142,6 +143,22 @@ export default class Event {
 
   get cancelable(): boolean {
     return this._cancelable;
+  }
+
+  /**
+   * Historical alias for the stop-propagation flag. Reading it returns whether
+   * `stopPropagation()` has been called (or `cancelBubble` has been set to
+   * `true`). Setting it to `true` stops propagation; setting it to `false` is a
+   * no-op. See https://dom.spec.whatwg.org/#dom-event-cancelbubble.
+   */
+  get cancelBubble(): boolean {
+    return getStopPropagationFlag(this);
+  }
+
+  set cancelBubble(value: boolean) {
+    if (value) {
+      setStopPropagationFlag(this, true);
+    }
   }
 
   get composed(): boolean {
