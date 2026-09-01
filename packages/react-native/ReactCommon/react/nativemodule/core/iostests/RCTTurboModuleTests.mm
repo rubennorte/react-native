@@ -12,7 +12,9 @@
 #import <hermes/hermes.h>
 #import <jsi/decorator.h>
 #import <react/featureflags/ReactNativeFeatureFlags.h>
+#import <react/featureflags/ReactNativeFeatureFlagsDefaults.h>
 
+#import <array>
 #import <memory>
 #import <vector>
 
@@ -22,6 +24,12 @@ using namespace facebook::react;
 
 @interface RCTTestTurboModule : NSObject <RCTBridgeModule>
 
+// Deliberately not exported with RCT_EXPORT_METHOD: without `__rct_export__` metadata,
+// `getArgumentTypeName` returns nil for the arguments.
+- (void)testMethodWhichTakesStringWithoutExportMacro:(NSString *)string;
+
+- (void)logEvent:(NSString *)eventName data:(NSDictionary *)data analyticsModule:(nullable NSString *)analyticsModule;
+
 @end
 
 @implementation RCTTestTurboModule
@@ -30,7 +38,23 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(testMethodWhichTakesObject : (id)object) {}
 
+- (void)testMethodWhichTakesStringWithoutExportMacro:(NSString *)string
+{
+}
+
+- (void)logEvent:(NSString *)eventName data:(NSDictionary *)data analyticsModule:(nullable NSString *)analyticsModule
+{
+}
+
 @end
+
+class ReactNativeFeatureFlagsNSNullConversionEnabled : public ReactNativeFeatureFlagsDefaults {
+ public:
+  bool enableModuleArgumentNSNullConversionIOS() override
+  {
+    return true;
+  }
+};
 
 // Minimal concrete MutableBuffer that owns its bytes, used to observe lifetime.
 class TestMutableBuffer : public facebook::jsi::MutableBuffer {
@@ -122,6 +146,8 @@ class StubNativeMethodCallInvoker : public NativeMethodCallInvoker {
   module_ = nullptr;
   instance_ = nil;
 
+  ReactNativeFeatureFlags::dangerouslyReset();
+
   [super tearDown];
 }
 
@@ -157,6 +183,74 @@ class StubNativeMethodCallInvoker : public NativeMethodCallInvoker {
   module_->invokeObjCMethod(
       *rt, VoidKind, "testMethodWhichTakesObject", @selector(testMethodWhichTakesObject:), args, 1);
   OCMVerify(OCMTimes(1), [instance_ testMethodWhichTakesObject:nil]);
+}
+
+- (void)testInvokeUnexportedTurboModuleMethodWithNullPassesNil
+{
+  ReactNativeFeatureFlags::dangerouslyForceOverride(std::make_unique<ReactNativeFeatureFlagsNSNullConversionEnabled>());
+
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  facebook::jsi::Runtime *rt = hermesRuntime.get();
+
+  std::array<facebook::jsi::Value, 1> args = {facebook::jsi::Value::null()};
+  module_->invokeObjCMethod(
+      *rt,
+      VoidKind,
+      "testMethodWhichTakesStringWithoutExportMacro",
+      @selector(testMethodWhichTakesStringWithoutExportMacro:),
+      args.data(),
+      args.size());
+
+  OCMVerify(OCMTimes(1), [instance_ testMethodWhichTakesStringWithoutExportMacro:nil]);
+  OCMVerify(OCMNever(), [instance_ testMethodWhichTakesStringWithoutExportMacro:(id)kCFNull]);
+}
+
+- (void)testInvokeUnexportedTurboModuleMethodWithNullTrailingArgumentPassesNil
+{
+  ReactNativeFeatureFlags::dangerouslyForceOverride(std::make_unique<ReactNativeFeatureFlagsNSNullConversionEnabled>());
+
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  facebook::jsi::Runtime *rt = hermesRuntime.get();
+
+  __block id capturedAnalyticsModule = (id)kCFNull;
+  OCMStub([instance_ logEvent:OCMOCK_ANY
+                         data:OCMOCK_ANY
+              analyticsModule:[OCMArg checkWithBlock:^BOOL(id value) {
+                capturedAnalyticsModule = value;
+                return YES;
+              }]]);
+
+  std::array<facebook::jsi::Value, 3> args = {
+      facebook::jsi::String::createFromAscii(*rt, "some_event"),
+      facebook::jsi::Object(*rt),
+      facebook::jsi::Value::null()};
+  args[1].asObject(*rt).setProperty(*rt, "key", "value");
+
+  module_->invokeObjCMethod(
+      *rt, VoidKind, "logEvent", @selector(logEvent:data:analyticsModule:), args.data(), args.size());
+
+  OCMVerify(OCMTimes(1), [instance_ logEvent:@"some_event" data:@{@"key" : @"value"} analyticsModule:nil]);
+  XCTAssertNil(capturedAnalyticsModule);
+
+  // `NSNull` is truthy, so this fallback would forward it and throw on -mutableCopy.
+  NSString *analyticsModule = (capturedAnalyticsModule != nullptr) ? capturedAnalyticsModule : @"";
+  XCTAssertNoThrow([analyticsModule mutableCopy]);
+}
+
+// Scrubbing a null in argument position must not scrub nulls nested inside a collection argument.
+- (void)testInvokeTurboModuleKeepsNestedNullAsNSNullWhenFlagEnabled
+{
+  ReactNativeFeatureFlags::dangerouslyForceOverride(std::make_unique<ReactNativeFeatureFlagsNSNullConversionEnabled>());
+
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  facebook::jsi::Runtime *rt = hermesRuntime.get();
+
+  std::array<facebook::jsi::Value, 1> args = {facebook::jsi::Object(*rt)};
+  args[0].asObject(*rt).setProperty(*rt, "foo", facebook::jsi::Value::null());
+  module_->invokeObjCMethod(
+      *rt, VoidKind, "testMethodWhichTakesObject", @selector(testMethodWhichTakesObject:), args.data(), args.size());
+
+  OCMVerify(OCMTimes(1), [instance_ testMethodWhichTakesObject:@{@"foo" : (id)kCFNull}]);
 }
 
 // A native-backed ArrayBuffer is aliased rather than copied, and the RCTArrayBuffer retains

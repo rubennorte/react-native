@@ -727,6 +727,13 @@ void ObjCTurboModule::setInvocationArg(
   BOOL enableModuleArgumentNSNullConversionIOS = ReactNativeFeatureFlags::enableModuleArgumentNSNullConversionIOS();
   id objCArg =
       convertJSIValueToObjCObject(runtime, arg, jsInvoker_, enableModuleArgumentNSNullConversionIOS, mustCopyBytes);
+
+  // A JS `null` in argument position must reach ObjC as `nil`; only nulls nested inside arrays and
+  // dictionaries are preserved as `kCFNull`. Skipping `setArgument:` leaves the slot zeroed.
+  if (enableModuleArgumentNSNullConversionIOS && objCArg == (id)kCFNull) {
+    return;
+  }
+
   if (objCArg != nullptr) {
     NSString *methodNameNSString = @(methodName);
 
