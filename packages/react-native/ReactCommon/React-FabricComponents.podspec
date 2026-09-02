@@ -97,8 +97,8 @@ Pod::Spec.new do |s|
 
     ss.subspec "modalUmbrella" do |sss|
       sss.source_files         = "react/renderer/components/modal/React/*.h"
-      sss.header_dir           = "React"
-      sss.header_mappings_dir  = "react/renderer/components/modal/React"
+      sss.header_dir           = ""
+      sss.header_mappings_dir  = "react/renderer/components/modal"
     end
 
     ss.subspec "safeareaview" do |sss|
@@ -118,8 +118,8 @@ Pod::Spec.new do |s|
 
     ss.subspec "textUmbrella" do |sss|
       sss.source_files         = "react/renderer/components/text/React/*.h"
-      sss.header_dir           = "React"
-      sss.header_mappings_dir  = "react/renderer/components/text/React"
+      sss.header_dir           = ""
+      sss.header_mappings_dir  = "react/renderer/components/text"
     end
 
     ss.subspec "iostextinput" do |sss|

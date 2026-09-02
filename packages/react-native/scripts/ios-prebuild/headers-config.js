@@ -485,7 +485,7 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
     headerDir: 'react/renderer/mapbuffer',
     subSpecs: [
       {
-        name: 'MapBufferUmbrella',
+        name: 'mapbufferUmbrella',
         headerPatterns: ['react/renderer/mapbuffer/React/*.h'],
         headerDir: 'React',
       },
@@ -501,7 +501,7 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
     headerDir: 'react/renderer/components/image',
     subSpecs: [
       {
-        name: 'ImageUmbrella',
+        name: 'imageUmbrella',
         headerPatterns: ['react/renderer/components/image/React/*.h'],
         headerDir: 'React',
       },
@@ -514,7 +514,7 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
     headerDir: 'ReactCommon',
     subSpecs: [
       {
-        name: 'CallInvokerUmbrella',
+        name: 'callinvokerUmbrella',
         headerPatterns: ['React/*.h'],
         headerDir: 'React',
       },
@@ -526,7 +526,7 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
     headerDir: 'react/debug',
     subSpecs: [
       {
-        name: 'DebugUmbrella',
+        name: 'debugUmbrella',
         headerPatterns: ['React/*.h'],
         headerDir: 'React',
       },

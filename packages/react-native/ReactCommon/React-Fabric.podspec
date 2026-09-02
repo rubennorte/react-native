@@ -90,8 +90,8 @@ Pod::Spec.new do |s|
 
   s.subspec "bridgingUmbrella" do |ss|
     ss.source_files         = "react/renderer/bridging/React/*.h"
-    ss.header_dir           = "React"
-    ss.header_mappings_dir  = "react/renderer/bridging/React"
+    ss.header_dir           = ""
+    ss.header_mappings_dir  = "react/renderer/bridging"
   end
 
   s.subspec "core" do |ss|
@@ -140,8 +140,8 @@ Pod::Spec.new do |s|
 
     ss.subspec "rootUmbrella" do |sss|
       sss.source_files         = "react/renderer/components/root/React/*.h"
-      sss.header_dir           = "React"
-      sss.header_mappings_dir  = "react/renderer/components/root/React"
+      sss.header_dir           = ""
+      sss.header_mappings_dir  = "react/renderer/components/root"
     end
 
     ss.subspec "view" do |sss|
@@ -153,8 +153,8 @@ Pod::Spec.new do |s|
 
     ss.subspec "viewUmbrella" do |sss|
       sss.source_files         = "react/renderer/components/view/React/*.h"
-      sss.header_dir           = "React"
-      sss.header_mappings_dir  = "react/renderer/components/view/React"
+      sss.header_dir           = ""
+      sss.header_mappings_dir  = "react/renderer/components/view"
     end
 
     ss.subspec "scrollview" do |sss|
@@ -165,8 +165,8 @@ Pod::Spec.new do |s|
 
     ss.subspec "scrollviewUmbrella" do |sss|
       sss.source_files         = "react/renderer/components/scrollview/React/*.h"
-      sss.header_dir           = "React"
-      sss.header_mappings_dir  = "react/renderer/components/scrollview/React"
+      sss.header_dir           = ""
+      sss.header_mappings_dir  = "react/renderer/components/scrollview"
     end
 
     ss.subspec "legacyviewmanagerinterop" do |sss|
