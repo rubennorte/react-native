@@ -491,22 +491,6 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
       },
     ],
   },
-  'ReactCommon/React-FabricImage.podspec': {
-    name: 'React-FabricImage',
-    headerPatterns: ['react/renderer/components/image/**/*.h'],
-    excludePatterns: [
-      'react/renderer/components/image/tests',
-      'react/renderer/components/image/React',
-    ],
-    headerDir: 'react/renderer/components/image',
-    subSpecs: [
-      {
-        name: 'imageUmbrella',
-        headerPatterns: ['react/renderer/components/image/React/*.h'],
-        headerDir: 'React',
-      },
-    ],
-  },
   'ReactCommon/callinvoker/React-callinvoker.podspec': {
     name: 'React-callinvoker',
     headerPatterns: ['**/*.h'],
