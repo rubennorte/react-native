@@ -29,7 +29,8 @@ import nullthrows from 'nullthrows';
 function raiseSoftError(methodName: string, details?: string): void {
   console.error(
     `[ReactNative Architecture][JS] '${methodName}' is not available in the new React Native architecture.` +
-      (details != null && details !== '' ? ` ${details}` : ''),
+      // $FlowFixMe[sketchy-null-string]
+      (details ? ` ${details}` : ''),
   );
 }
 
