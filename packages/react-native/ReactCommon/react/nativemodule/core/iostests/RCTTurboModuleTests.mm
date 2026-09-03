@@ -48,6 +48,27 @@ RCT_EXPORT_METHOD(testMethodWhichTakesObject : (id)object) {}
 
 @end
 
+@interface RCTThrowingTurboModule : NSObject <RCTBridgeModule>
+
+@end
+
+@implementation RCTThrowingTurboModule
+
+RCT_EXPORT_MODULE()
+
+// A plain `NSArray *` parameter has no element converter to sanitise it (unlike, say,
+// `NSArray<NSString *> *`, which RCTConvert routes through `NSStringArray:` and which drops nulls),
+// so `convertJSIArrayToNSArray` substituting `[NSNull null]` for a null element to preserve the
+// indices is what this loop actually receives from a JS caller passing `['a', null]`.
+RCT_EXPORT_METHOD(testMethodWhichReadsStringsFromArray : (NSArray *)items)
+{
+  for (NSUInteger i = 0; i < items.count; i++) {
+    (void)[(NSString *)items[i] length];
+  }
+}
+
+@end
+
 class ReactNativeFeatureFlagsNSNullConversionEnabled : public ReactNativeFeatureFlagsDefaults {
  public:
   bool enableModuleArgumentNSNullConversionIOS() override
@@ -115,6 +136,37 @@ class StubNativeMethodCallInvoker : public NativeMethodCallInvoker {
   void invokeSync(const std::string &methodName, NativeMethodCallFunc &&func) noexcept override
   {
     func();
+  }
+};
+
+// `NativeMethodCallInvoker::invokeAsync` is noexcept, so an NSException escaping the async
+// invocation terminates the process — which is the production failure mode, but leaves nothing for
+// a test to inspect. Catching here stands in for the process-level handler and puts the exception
+// exactly where that handler would see it.
+class ExceptionCapturingNativeMethodCallInvoker : public NativeMethodCallInvoker {
+ public:
+  __strong NSException *caught = nil;
+
+  void invokeAsync(const std::string & /*methodName*/, NativeMethodCallFunc &&func) noexcept override
+  {
+    // The outer C++ handler is what makes the `noexcept` honest: `func` is a std::function, and
+    // invoking an empty one throws a `std::bad_function_call` that `@catch (NSException *)` cannot
+    // bind.
+    try {
+      @try {
+        func();
+      } @catch (NSException *exception) {
+        caught = exception;
+      }
+    } catch (...) {
+    }
+  }
+  void invokeSync(const std::string & /*methodName*/, NativeMethodCallFunc &&func) noexcept override
+  {
+    try {
+      func();
+    } catch (...) {
+    }
   }
 };
 
@@ -251,6 +303,55 @@ class StubNativeMethodCallInvoker : public NativeMethodCallInvoker {
       *rt, VoidKind, "testMethodWhichTakesObject", @selector(testMethodWhichTakesObject:), args.data(), args.size());
 
   OCMVerify(OCMTimes(1), [instance_ testMethodWhichTakesObject:@{@"foo" : (id)kCFNull}]);
+}
+
+// Void methods are always async, so an NSException raised by the module unwinds past every module
+// frame before anything reports it. The rethrow is the last point at which the failing module and
+// method are still known, so it has to put them on the exception.
+- (void)testVoidMethodExceptionCarriesModuleAndMethodName
+{
+  auto hermesRuntime = facebook::hermes::makeHermesRuntime();
+  facebook::jsi::Runtime *rt = hermesRuntime.get();
+
+  auto invoker = std::make_shared<ExceptionCapturingNativeMethodCallInvoker>();
+  RCTThrowingTurboModule *instance = [RCTThrowingTurboModule new];
+  ObjCTurboModule::InitParams params = {
+      .moduleName = "ThrowingTestModule",
+      .instance = instance,
+      .jsInvoker = nullptr,
+      .nativeMethodCallInvoker = invoker,
+      .isSyncModule = false,
+  };
+  ObjCTurboModule module(params);
+
+  auto items = facebook::jsi::Array(*rt, 2);
+  items.setValueAtIndex(*rt, 0, facebook::jsi::String::createFromAscii(*rt, "a"));
+  items.setValueAtIndex(*rt, 1, facebook::jsi::Value::null());
+  std::array<facebook::jsi::Value, 1> args = {facebook::jsi::Value(*rt, items)};
+
+  module.invokeObjCMethod(
+      *rt,
+      VoidKind,
+      "testMethodWhichReadsStringsFromArray",
+      @selector(testMethodWhichReadsStringsFromArray:),
+      args.data(),
+      1);
+
+  NSException *caught = invoker->caught;
+  XCTAssertNotNil(caught, @"Sending -length to the NSNull standing in for the null element must raise");
+  XCTAssertEqualObjects(caught.name, NSInvalidArgumentException);
+  XCTAssertTrue(
+      [caught.reason containsString:@"ThrowingTestModule"], @"reason must name the module: %@", caught.reason);
+  XCTAssertTrue(
+      [caught.reason containsString:@"testMethodWhichReadsStringsFromArray"],
+      @"reason must name the method: %@",
+      caught.reason);
+  // The original failure has to survive alongside the identity rather than be replaced by it.
+  XCTAssertTrue([caught.reason containsString:@"unrecognized selector"], @"%@", caught.reason);
+  NSException *original = caught.userInfo[@"RCTTurboModuleOriginalException"];
+  XCTAssertNotNil(original);
+  XCTAssertNotNil(original.callStackReturnAddresses);
+  XCTAssertNotNil(original.callStackSymbols);
 }
 
 // A native-backed ArrayBuffer is aliased rather than copied, and the RCTArrayBuffer retains
