@@ -59,7 +59,6 @@ export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
 });
 
 export default codegenNativeComponent<SwitchNativeProps>('Switch', {
-  paperComponentName: 'RCTSwitch',
   excludedPlatforms: ['android'],
   interfaceOnly: true,
 }) as ComponentType;
