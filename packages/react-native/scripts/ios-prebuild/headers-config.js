@@ -358,12 +358,6 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
           },
 
           {
-            name: 'modalUmbrella',
-            headerPatterns: ['react/renderer/components/modal/React/*.h'],
-            headerDir: 'React',
-          },
-
-          {
             name: 'safeareaview',
             headerPatterns: ['react/renderer/components/safeareaview/**/*.h'],
             excludePatterns: ['react/renderer/components/safeareaview/tests'],
