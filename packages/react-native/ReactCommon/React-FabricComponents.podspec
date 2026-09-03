@@ -110,12 +110,6 @@ Pod::Spec.new do |s|
       sss.header_dir           = "react/renderer/components/text"
     end
 
-    ss.subspec "textUmbrella" do |sss|
-      sss.source_files         = "react/renderer/components/text/React/*.h"
-      sss.header_dir           = ""
-      sss.header_mappings_dir  = "react/renderer/components/text"
-    end
-
     ss.subspec "iostextinput" do |sss|
       sss.source_files         = podspec_sources(["react/renderer/components/textinput/*.{m,mm,cpp,h}",
                                   "react/renderer/components/textinput/platform/ios/**/*.{m,mm,cpp,h}"],
