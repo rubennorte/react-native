@@ -25,7 +25,7 @@ export interface Spec extends TurboModule {
   readonly getSize: (uri: string) => Promise<ImageSize>;
   readonly getSizeWithHeaders: (
     uri: string,
-    headers: UnsafeObject,
+    headers: {[key: string]: string},
   ) => Promise<ImageSize>;
   readonly prefetchImage: (uri: string, requestId: number) => Promise<boolean>;
   readonly queryCache: (uris: Array<string>) => Promise<UnsafeObject>;
