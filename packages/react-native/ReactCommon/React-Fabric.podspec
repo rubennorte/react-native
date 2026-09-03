@@ -134,14 +134,8 @@ Pod::Spec.new do |s|
   s.subspec "components" do |ss|
     ss.subspec "root" do |sss|
       sss.source_files         = podspec_sources("react/renderer/components/root/**/*.{m,mm,cpp,h}", "react/renderer/components/root/**/*.{h}")
-      sss.exclude_files        = ["react/renderer/components/root/tests", "react/renderer/components/root/React"]
+      sss.exclude_files        = "react/renderer/components/root/tests"
       sss.header_dir           = "react/renderer/components/root"
-    end
-
-    ss.subspec "rootUmbrella" do |sss|
-      sss.source_files         = "react/renderer/components/root/React/*.h"
-      sss.header_dir           = ""
-      sss.header_mappings_dir  = "react/renderer/components/root"
     end
 
     ss.subspec "view" do |sss|
