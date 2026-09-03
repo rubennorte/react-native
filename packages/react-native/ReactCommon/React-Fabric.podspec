@@ -84,14 +84,8 @@ Pod::Spec.new do |s|
 
   s.subspec "bridging" do |ss|
     ss.source_files         = podspec_sources("react/renderer/bridging/**/*.{m,mm,cpp,h}", "react/renderer/bridging/**/*.{h}")
-    ss.exclude_files        = ["react/renderer/bridging/tests", "react/renderer/bridging/React"]
+    ss.exclude_files        = "react/renderer/bridging/tests"
     ss.header_dir           = "react/renderer/bridging"
-  end
-
-  s.subspec "bridgingUmbrella" do |ss|
-    ss.source_files         = "react/renderer/bridging/React/*.h"
-    ss.header_dir           = ""
-    ss.header_mappings_dir  = "react/renderer/bridging"
   end
 
   s.subspec "core" do |ss|
