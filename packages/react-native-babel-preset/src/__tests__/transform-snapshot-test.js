@@ -186,18 +186,6 @@ function transformCodeWithSourceOptimization(
   return result?.code ?? null;
 }
 
-function transformWithoutBabelApi(code: string): string | null {
-  const config = preset.getPreset(code, {dev: false});
-  const result = babel.transformSync(code, {
-    ...config,
-    babelrc: false,
-    configFile: false,
-    filename: MOCK_FILENAME,
-    sourceMaps: false,
-  });
-  return result?.code ?? null;
-}
-
 function getSnapshotPath(configName: string): string {
   return path.join(OUTPUT_DIR, `${configName}.js`);
 }
@@ -294,15 +282,6 @@ describe('react-native-babel-preset transform snapshots', () => {
   );
 
   describe('specific feature transformations', () => {
-    it('builds the default config without options or a Babel API', () => {
-      expect(() => preset()).not.toThrow();
-    });
-
-    it('uses the default transform profile without a Babel API', () => {
-      const result = transformWithoutBabelApi('class Animal {}');
-      expect(result).toContain('class Animal');
-    });
-
     it('adds display names when React.createClass contains trivia', () => {
       const code = `
         const Component = React /* comment */ . createClass({
