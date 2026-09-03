@@ -135,14 +135,7 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
             excludePatterns: [
               'react/renderer/components/scrollview/tests',
               'react/renderer/components/scrollview/platform/android',
-              'react/renderer/components/scrollview/React',
             ],
-          },
-
-          {
-            name: 'scrollviewUmbrella',
-            headerPatterns: ['react/renderer/components/scrollview/React/*.h'],
-            headerDir: 'React',
           },
 
           {
