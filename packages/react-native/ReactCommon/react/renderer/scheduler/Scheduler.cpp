@@ -15,12 +15,14 @@
 #include <react/featureflags/ReactNativeFeatureFlags.h>
 #include <react/performance/cdpmetrics/CdpMetricsReporter.h>
 #include <react/performance/cdpmetrics/CdpPerfIssuesReporter.h>
+#include <react/performance/timeline/PerformanceEntryReporter.h>
 #include <react/renderer/animationbackend/AnimationBackend.h>
 #include <react/renderer/componentregistry/ComponentDescriptorRegistry.h>
 #include <react/renderer/core/EventQueueProcessor.h>
 #include <react/renderer/core/LayoutContext.h>
 #include <react/renderer/mounting/MountingOverrideDelegate.h>
 #include <react/renderer/mounting/ShadowViewMutation.h>
+#include <react/renderer/observers/events/EventPerformanceLogger.h>
 #include <react/renderer/runtimescheduler/RuntimeScheduler.h>
 #include <react/renderer/uimanager/LayoutEventEmitter.h>
 #include <react/renderer/uimanager/UIManager.h>

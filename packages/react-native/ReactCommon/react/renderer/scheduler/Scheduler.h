@@ -16,14 +16,12 @@
 #include <vector>
 
 #include <ReactCommon/RuntimeExecutor.h>
-#include <react/performance/timeline/PerformanceEntryReporter.h>
 #include <react/renderer/componentregistry/ComponentDescriptorFactory.h>
 #include <react/renderer/core/ComponentDescriptor.h>
 #include <react/renderer/core/EventEmitter.h>
 #include <react/renderer/core/EventListener.h>
 #include <react/renderer/core/LayoutConstraints.h>
 #include <react/renderer/mounting/MountingOverrideDelegate.h>
-#include <react/renderer/observers/events/EventPerformanceLogger.h>
 #include <react/renderer/scheduler/InspectorData.h>
 #include <react/renderer/scheduler/SchedulerDelegate.h>
 #include <react/renderer/scheduler/SchedulerToolbox.h>
@@ -37,6 +35,8 @@ namespace facebook::react {
 
 class CdpMetricsReporter;
 class CdpPerfIssuesReporter;
+class EventPerformanceLogger;
+class PerformanceEntryReporter;
 class ViewTransitionModule;
 
 /*
