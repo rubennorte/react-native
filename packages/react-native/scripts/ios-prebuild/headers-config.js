@@ -585,6 +585,23 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
   'Libraries/PushNotificationIOS/React-RCTPushNotification.podspec': {
     disabled: true,
   },
+  'ReactCommon/react/renderer/css/React-renderercss.podspec': {
+    name: 'React-renderercss',
+    headerPatterns: [],
+    headerDir: '',
+    subSpecs: [
+      {
+        name: 'css',
+        headerPatterns: ['*.h'],
+        headerDir: 'react/renderer/css',
+      },
+      {
+        name: 'cssUmbrella',
+        headerPatterns: ['React/*.h'],
+        headerDir: 'React',
+      },
+    ],
+  },
 };
 
 module.exports = {PodspecExceptions};
