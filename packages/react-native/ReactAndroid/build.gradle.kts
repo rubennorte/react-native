@@ -113,6 +113,7 @@ val preparePrefab by
                       // reactnativejni
                       Pair("src/main/jni/react/jni", "react/jni/"),
                       Pair("../ReactCommon/cxxreact/", "cxxreact/"),
+                      Pair("../ReactCommon/cxxreact/React/", "React/"),
                       // react_featureflags
                       Pair("../ReactCommon/react/featureflags/", "react/featureflags/"),
                       Pair("../ReactCommon/react/featureflags/React/", "React/"),

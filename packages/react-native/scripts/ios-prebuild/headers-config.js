@@ -620,6 +620,23 @@ const PodspecExceptions /*: {[key: string]: PodSpecConfiguration} */ = {
       },
     ],
   },
+  'ReactCommon/cxxreact/React-cxxreact.podspec': {
+    name: 'React-cxxreact',
+    headerPatterns: [],
+    headerDir: '',
+    subSpecs: [
+      {
+        name: 'cxxreact',
+        headerPatterns: ['*.h'],
+        headerDir: 'cxxreact',
+      },
+      {
+        name: 'cxxreactUmbrella',
+        headerPatterns: ['React/*.h'],
+        headerDir: 'React',
+      },
+    ],
+  },
 };
 
 module.exports = {PodspecExceptions};
