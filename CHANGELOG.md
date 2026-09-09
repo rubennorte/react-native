@@ -4,11 +4,9 @@
 
 ### Breaking
 
-- **Touchable**: The `Touchable` root export (undocumented) is removed. If you are extending `Touchable` as a type, please use `ViewProps` instead. ([0015d1e4f9](https://github.com/react/react-native/commit/0015d1e4f9f812f775b9eb78e6da63beea7dc34c) by [@huntie](https://github.com/huntie))
-
 #### iOS specific
 
-- **TurboModules**: Add `RCTArrayBuffer`, the ObjC representation of a JS `ArrayBuffer` for TurboModules, with an explicit byte-ownership contract ([11f9a7f449](https://github.com/react/react-native/commit/11f9a7f4491eb1b01955298851d5a87a3bb311cc) by Kamil Paradowski)
+- **TurboModules**: Codegen now emits `RCTArrayBuffer *` for TurboModule methods taking or returning an `ArrayBuffer`, replacing `NSMutableData *`. Modules that adopted ObjC `ArrayBuffer` support in 0.87 stop compiling until they update ([11f9a7f449](https://github.com/react/react-native/commit/11f9a7f4491eb1b01955298851d5a87a3bb311cc) by Kamil Paradowski)
 
 ### Added
 
@@ -39,6 +37,7 @@
 - **TextInput**: Add `fontVariationSettings` support for `TextInput` ([a688608090](https://github.com/react/react-native/commit/a68860809024511ed7dae963aadba8eba4b0e73b) by [@evankatz14](https://github.com/evankatz14))
 - **TurboModules**: Add `ArrayBuffer`, the Java representation of a JS `ArrayBuffer` for TurboModules, with an explicit byte-ownership contract ([5bb9639594](https://github.com/react/react-native/commit/5bb9639594952de0893c22130eb0654b5c4594b5) by Kamil Paradowski)
 - **TurboModules**: Add ArrayBuffer support to Java TurboModules ([5fb3ebce1a](https://github.com/react/react-native/commit/5fb3ebce1ac4125e55f270a18dbc4f873b0eb09f) by Kamil Paradowski)
+- **TurboModules**: Borrowed `ArrayBuffer` bytes are scoped to the synchronous call that received them. `ArrayBuffer.bytes` and `ArrayBuffer.size` throw `IllegalStateException` afterwards, and a `ByteBuffer` already obtained from `bytes` is unchecked and reads freed memory, so copy with `ArrayBuffer.arrayBufferWithCopiedBytes` to keep them ([d84c13d511](https://github.com/react/react-native/commit/d84c13d5111eef037a196e8e9d5393cfb0d17982) by [@christophpurrer](https://github.com/christophpurrer))
 
 #### iOS specific
 
@@ -152,7 +151,6 @@
 - **Text**: Keep inline views inside Text from shrinking with Android system font scale ([551d12a787](https://github.com/react/react-native/commit/551d12a787f925aa0b9c7d7fa9a5703b28a64cbc) by [@TorinAsakura](https://github.com/TorinAsakura))
 - **TextInput**: Ellipsize long single-line TextInput placeholders to match iOS ([7f18ad0f84](https://github.com/react/react-native/commit/7f18ad0f8486bf90cc77c38ee1097250218f7f8e) by [@kosmydel](https://github.com/kosmydel))
 - **TextInput**: Show the soft keyboard when a long-press starts text selection in TextInput ([9195e52706](https://github.com/react/react-native/commit/9195e5270605e77d979d6e6bcdcb5a9d987545f1) by [@idoyana](https://github.com/idoyana))
-- **TurboModules**: TurboModule methods taking or returning an `ArrayBuffer` ([d84c13d511](https://github.com/react/react-native/commit/d84c13d5111eef037a196e8e9d5393cfb0d17982) by [@christophpurrer](https://github.com/christophpurrer))
 - **View**: Resetting border widths no longer clips children in rounded overflow-hidden views. ([146aaac7ee](https://github.com/react/react-native/commit/146aaac7eed016eb89e750cd2144f47806ee5863) by [@RealBhupesh](https://github.com/RealBhupesh))
 - **ViewManagers**: Fix `Double` prop defaults being rounded to float precision in generated `ViewManager` delegates ([2c4278d83b](https://github.com/react/react-native/commit/2c4278d83b2cf2de31d8d5a4d9f259e5cf0134f6) by [@dennytosp](https://github.com/dennytosp))
 - **ViewManagers**: Fix `RuntimeException: Unrecognized type: class com.facebook.yoga.YogaValue` when a `ViewManager` implements a `DimensionValue` prop with `ReactProp` ([091ac613ce](https://github.com/react/react-native/commit/091ac613cebafde540d9c1e56284d782029d3d35) by [@dennytosp](https://github.com/dennytosp))
