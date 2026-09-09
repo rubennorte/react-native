@@ -37,10 +37,12 @@
 #import <ReactCommon/RCTTurboModuleManager.h>
 #import <ReactCommon/RuntimeExecutor.h>
 #import <cxxreact/ReactMarker.h>
+#import <jserrorhandler/JsErrorHandler.h>
 #import <jsinspector-modern/InspectorFlags.h>
 #import <jsinspector-modern/ReactCdp.h>
 #import <jsireact/JSIExecutor.h>
 #import <react/featureflags/ReactNativeFeatureFlags.h>
+#import <react/runtime/ReactInstance.h>
 #import <react/utils/ContextContainer.h>
 #import <react/utils/FollyConvert.h>
 #import <react/utils/ManagedObjectWrapper.h>

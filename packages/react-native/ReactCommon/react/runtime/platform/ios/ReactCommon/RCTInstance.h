@@ -13,7 +13,6 @@
 #import <React/RCTJavaScriptLoader.h>
 #import <jsinspector-modern/ReactCdp.h>
 #import <react/runtime/JSRuntimeFactory.h>
-#import <react/runtime/ReactInstance.h>
 
 #import "RCTContextContainerHandling.h"
 
