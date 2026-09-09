@@ -218,7 +218,9 @@ public abstract class BaseViewManager<T extends View, C extends LayoutShadowNode
       ReadableArray transformOrigin = (ReadableArray) v.getTag(R.id.transform_origin);
       ReadableArray transforms = (ReadableArray) v.getTag(R.id.transform);
       if (transforms != null || transformOrigin != null) {
-        setTransformProperty((T) v, transforms, transformOrigin);
+        @SuppressWarnings("unchecked")
+        T typedView = (T) v;
+        setTransformProperty(typedView, transforms, transformOrigin);
       }
     }
   }

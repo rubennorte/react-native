@@ -185,6 +185,7 @@ public class ReactTextView extends AppCompatTextView implements ReactCompoundVie
   }
 
   @Override
+  @SuppressWarnings("try")
   protected void onDraw(Canvas canvas) {
     try (SystraceSection s = new SystraceSection("ReactTextView.onDraw")) {
       Spannable spanned = getSpanned();
@@ -307,6 +308,7 @@ public class ReactTextView extends AppCompatTextView implements ReactCompoundVie
   }
 
   @Override
+  @SuppressWarnings("try")
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     try (SystraceSection s = new SystraceSection("ReactTextView.onMeasure")) {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -321,6 +323,7 @@ public class ReactTextView extends AppCompatTextView implements ReactCompoundVie
     }
   }
 
+  @SuppressWarnings("try")
   public void setText(ReactTextUpdate update) {
     try (SystraceSection s = new SystraceSection("ReactTextView.setText(ReactTextUpdate)")) {
       // Android's TextView crashes when it tries to relayout if LayoutParams are

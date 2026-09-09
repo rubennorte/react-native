@@ -18,7 +18,7 @@ import com.facebook.systrace.Systrace
  * [android.view.MotionEvent].
  */
 internal object TouchesHelper {
-  @JvmField @Deprecated("Not used in New Architecture") public val TARGET_KEY: String = "target"
+  @JvmField @Deprecated("Not used in New Architecture") val TARGET_KEY: String = "target"
 
   private const val TARGET_SURFACE_KEY = "targetSurface"
   private const val CHANGED_TOUCHES_KEY = "changedTouches"
@@ -98,7 +98,7 @@ internal object TouchesHelper {
       val type = event.getTouchEventType()
       val motionEvent = event.getMotionEvent()
       var touches = createPointersArray(event)
-      var changedTouches: Array<WritableMap?>? = null
+      val changedTouches: Array<WritableMap?>?
 
       when (type) {
         TouchEventType.START -> {

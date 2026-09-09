@@ -18,7 +18,7 @@ import com.facebook.react.module.annotations.ReactModule
 @ReactModule(name = NativeSourceCodeSpec.NAME)
 public class SourceCodeModule(reactContext: ReactApplicationContext) :
     NativeSourceCodeSpec(reactContext) {
-  protected override fun getTypedExportedConstants(): Map<String, Any> = mapOf(
+  override fun getTypedExportedConstants(): Map<String, Any> = mapOf(
       "scriptURL" to
           Assertions.assertNotNull<String>(
               reactApplicationContext.getSourceURL(),

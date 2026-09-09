@@ -152,7 +152,7 @@ internal class VirtualViewContainerStateExperimental(scrollView: ViewGroup) :
  * overlapping VirtualViews
  */
 private data class Interval(val start: Int, val end: Int, val id: String) {
-  public fun intersects(other: Interval): Boolean {
+  fun intersects(other: Interval): Boolean {
     debugLog(
         "Interval: intersect",
         { "${id}:(${start}, ${end}) vs ${other.id}:(${other.start}, ${other.end})" },

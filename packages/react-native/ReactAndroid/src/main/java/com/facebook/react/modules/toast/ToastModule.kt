@@ -20,7 +20,7 @@ import com.facebook.react.module.annotations.ReactModule
 internal class ToastModule(reactContext: ReactApplicationContext) :
     NativeToastAndroidSpec(reactContext) {
 
-  override fun getTypedExportedConstants(): Map<String, Any> = mutableMapOf(
+  override fun getTypedExportedConstants(): Map<String, Any> = mapOf(
       DURATION_SHORT_KEY to Toast.LENGTH_SHORT,
       DURATION_LONG_KEY to Toast.LENGTH_LONG,
       GRAVITY_TOP_KEY to (Gravity.TOP or Gravity.CENTER_HORIZONTAL),

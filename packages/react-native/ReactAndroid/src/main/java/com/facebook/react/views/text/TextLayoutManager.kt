@@ -124,11 +124,11 @@ internal object TextLayoutManager {
     }
   }
 
-  fun setCachedSpannableForTag(reactTag: Int, sp: Spannable): Unit {
+  fun setCachedSpannableForTag(reactTag: Int, sp: Spannable) {
     tagToSpannableCache[reactTag] = sp
   }
 
-  fun deleteCachedSpannableForTag(reactTag: Int): Unit {
+  fun deleteCachedSpannableForTag(reactTag: Int) {
     tagToSpannableCache.remove(reactTag)
   }
 
@@ -147,12 +147,12 @@ internal object TextLayoutManager {
     val fragment = fragments.getMapBuffer(0)
     val textAttributes = fragment.getMapBuffer(FR_KEY_TEXT_ATTRIBUTES)
 
-    if (!textAttributes.contains(TextAttributeProps.TA_KEY_LAYOUT_DIRECTION.toInt())) {
+    if (!textAttributes.contains(TextAttributeProps.TA_KEY_LAYOUT_DIRECTION)) {
       return false
     }
 
     return TextAttributeProps.getLayoutDirection(
-        textAttributes.getString(TextAttributeProps.TA_KEY_LAYOUT_DIRECTION.toInt()),
+        textAttributes.getString(TextAttributeProps.TA_KEY_LAYOUT_DIRECTION),
     ) == LayoutDirection.RTL
   }
 
@@ -168,8 +168,8 @@ internal object TextLayoutManager {
       val fragment = fragments.getMapBuffer(0)
       val textAttributes = fragment.getMapBuffer(FR_KEY_TEXT_ATTRIBUTES)
 
-      if (textAttributes.contains(TextAttributeProps.TA_KEY_ALIGNMENT.toInt())) {
-        return textAttributes.getString(TextAttributeProps.TA_KEY_ALIGNMENT.toInt())
+      if (textAttributes.contains(TextAttributeProps.TA_KEY_ALIGNMENT)) {
+        return textAttributes.getString(TextAttributeProps.TA_KEY_ALIGNMENT)
       }
     }
 
@@ -708,7 +708,7 @@ internal object TextLayoutManager {
       reactTextViewManagerCallback: ReactTextViewManagerCallback?,
       textEffectRegistry: TextEffectRegistry?,
   ): Spannable {
-    var text: Spannable?
+    val text: Spannable?
     if (attributedString.contains(AS_KEY_CACHE_ID)) {
       val cacheId = attributedString.getInt(AS_KEY_CACHE_ID)
       text = checkNotNull(tagToSpannableCache[cacheId])
@@ -1185,7 +1185,7 @@ internal object TextLayoutManager {
       alignment: Layout.Alignment,
       justificationMode: Int,
       paint: TextPaint,
-  ): Unit {
+  ) {
     var boring = isBoring(text, paint)
     var layout: Layout
 
@@ -1197,7 +1197,7 @@ internal object TextLayoutManager {
     var currentFontSize = minimumFontSize
     val spans = text.getSpans(0, text.length, ReactAbsoluteSizeSpan::class.java)
     for (span in spans) {
-      currentFontSize = max(currentFontSize, span.size).toInt()
+      currentFontSize = max(currentFontSize, span.size)
     }
 
     var intervalStart = minimumFontSize

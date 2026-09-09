@@ -65,30 +65,30 @@ public class NetworkingModule(
    */
   internal interface UriHandler {
     /** Returns if the handler should be used for an URI. */
-    public fun supports(uri: Uri, responseType: String): Boolean
+    fun supports(uri: Uri, responseType: String): Boolean
 
     /**
      * Fetch the URI and return a tuple containing the JS body payload and the raw response body.
      */
-    @Throws(IOException::class) public fun fetch(uri: Uri): Pair<WritableMap, ByteArray>
+    @Throws(IOException::class) fun fetch(uri: Uri): Pair<WritableMap, ByteArray>
   }
 
   /** Allows adding custom handling to build the [RequestBody] from the JS body payload. */
   internal interface RequestBodyHandler {
     /** Returns if the handler should be used for a JS body payload. */
-    public fun supports(map: ReadableMap): Boolean
+    fun supports(map: ReadableMap): Boolean
 
     /** Returns the [RequestBody] for the JS body payload. */
-    public fun toRequestBody(map: ReadableMap, contentType: String?): RequestBody?
+    fun toRequestBody(map: ReadableMap, contentType: String?): RequestBody?
   }
 
   /** Allows adding custom handling to build the JS body payload from the [ResponseBody]. */
   internal interface ResponseHandler {
     /** Returns if the handler should be used for a response type. */
-    public fun supports(responseType: String): Boolean
+    fun supports(responseType: String): Boolean
 
     /** Returns the JS body payload for the [ResponseBody]. */
-    @Throws(IOException::class) public fun toResponseData(data: ByteArray): WritableMap
+    @Throws(IOException::class) fun toResponseData(data: ByteArray): WritableMap
   }
 
   private val client: OkHttpClient

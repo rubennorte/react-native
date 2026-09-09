@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
  * @param <TResult> The type of the result of the task.
  */
 public class Task<TResult> : TaskInterface<TResult> {
-  private val lock = Object()
+  @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") private val lock = Object()
   private var complete = false
   private var cancelled = false
 

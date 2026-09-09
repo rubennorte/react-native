@@ -164,7 +164,7 @@ public class ReactDrawerLayoutManager :
       view: ReactDrawerLayout,
       commandId: Int,
       args: ReadableArray?,
-  ): Unit {
+  ) {
     when (commandId) {
       OPEN_DRAWER -> view.openDrawer()
       CLOSE_DRAWER -> view.closeDrawer()

@@ -399,7 +399,7 @@ public open class ReactAccessibilityDelegate( // The View this delegate is attac
       return TOP_ACCESSIBILITY_ACTION_EVENT
     }
 
-    public override fun getEventData(): WritableMap? {
+    override fun getEventData(): WritableMap? {
       return accessibilityEventData
     }
   }

@@ -294,7 +294,7 @@ public open class JavaTimerManager(
       val frameTimeMillis = frameTimeNanos / 1000000
       synchronized(timerGuard) {
         while (!timers.isEmpty() && timers.peek()!!.targetTime < frameTimeMillis) {
-          var timer = timers.poll()
+          val timer = timers.poll()
           if (timer == null) {
             break
           }
@@ -352,7 +352,7 @@ public open class JavaTimerManager(
       if (FRAME_DURATION_MS - frameTimeElapsed.toFloat() < IDLE_CALLBACK_FRAME_DEADLINE_MS) {
         return
       }
-      var sendIdleEvents: Boolean
+      val sendIdleEvents: Boolean
       synchronized(idleCallbackGuard) { sendIdleEvents = this@JavaTimerManager.sendIdleEvents }
       if (sendIdleEvents) {
         javaScriptTimerExecutor.callIdleCallbacks(absoluteFrameStartTime.toDouble())

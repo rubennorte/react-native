@@ -1323,7 +1323,7 @@ public open class ReactEditText public constructor(context: Context) : AppCompat
      */
     override fun getInputType() = _inputType
 
-    public fun setInputType(inputType: Int) {
+    fun setInputType(inputType: Int) {
       _inputType = inputType
     }
 
