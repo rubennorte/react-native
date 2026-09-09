@@ -10494,6 +10494,7 @@ enum facebook::yoga::Errata : uint32_t {
   AbsolutePositionWithoutInsetsExcludesPadding,
   All,
   Classic,
+  FlexFirstPassUsesRunningTotals,
   MinSizeUndefinedInsteadOfAuto,
   None,
   StretchFlexBasis,
