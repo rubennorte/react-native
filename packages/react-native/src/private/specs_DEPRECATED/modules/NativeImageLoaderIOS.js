@@ -20,7 +20,7 @@ export interface Spec extends TurboModule {
   readonly getSize: (uri: string) => Promise<ReadonlyArray<number>>;
   readonly getSizeWithHeaders: (
     uri: string,
-    headers: UnsafeObject,
+    headers: {[key: string]: string},
   ) => Promise<{
     width: number,
     height: number,
