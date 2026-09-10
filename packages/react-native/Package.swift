@@ -70,6 +70,7 @@ let rctDeprecation = RNTarget(
 let yoga = RNTarget(
   name: .yoga,
   path: "ReactCommon/yoga",
+  excludedPaths: ["test"],
   publicHeadersPath: "yoga"
 )
 
