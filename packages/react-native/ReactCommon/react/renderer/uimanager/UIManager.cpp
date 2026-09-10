@@ -21,6 +21,7 @@
 #include <react/renderer/uimanager/UIManagerCommitHook.h>
 #include <react/renderer/uimanager/UIManagerMountHook.h>
 #include <react/renderer/uimanager/consistency/LazyShadowTreeRevisionConsistencyManager.h>
+#include <react/renderer/uimanager/consistency/ShadowTreeRevisionProvider.h>
 
 #include <glog/logging.h>
 

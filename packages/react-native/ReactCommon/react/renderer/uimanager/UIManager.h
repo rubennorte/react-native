@@ -28,7 +28,6 @@
 #include <react/renderer/uimanager/UIManagerDelegate.h>
 #include <react/renderer/uimanager/UIManagerNativeAnimatedDelegate.h>
 #include <react/renderer/uimanager/UIManagerViewTransitionDelegate.h>
-#include <react/renderer/uimanager/consistency/ShadowTreeRevisionProvider.h>
 #include <react/renderer/uimanager/primitives.h>
 #include <react/utils/ContextContainer.h>
 
@@ -37,6 +36,7 @@ namespace facebook::react {
 class LazyShadowTreeRevisionConsistencyManager;
 class LeakChecker;
 class ShadowTreeRevisionConsistencyManager;
+class ShadowTreeRevisionProvider;
 class UIManagerBinding;
 class UIManagerCommitHook;
 class UIManagerMountHook;
