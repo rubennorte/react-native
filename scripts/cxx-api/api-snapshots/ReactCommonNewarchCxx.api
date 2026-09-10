@@ -2069,6 +2069,7 @@ class facebook::react::LayoutableShadowNode : public facebook::react::ShadowNode
 }
 
 struct facebook::react::LayoutableShadowNode::LayoutInspectingPolicy {
+  public bool clipSpecifiedAncestor;
   public bool enableOverflowClipping;
   public bool includeTransform;
   public bool includeViewportOffset;
