@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @flow
+ * @flow strict-local
  * @format
  */
 
@@ -64,7 +64,9 @@ export default class AnimatedNode {
       this.__nativeTag = undefined;
     }
   }
+  // $FlowFixMe[unclear-type]
   __getValue(): any {}
+  // $FlowFixMe[unclear-type]
   __getAnimatedValue(): any {
     return this.__getValue();
   }
@@ -112,6 +114,7 @@ export default class AnimatedNode {
    *
    * See https://reactnative.dev/docs/animatedvalue#addlistener
    */
+  // $FlowFixMe[unclear-type]
   addListener(callback: (value: any) => unknown): string {
     const id = String(_uniqueId++);
     this._listeners.set(id, callback);
@@ -216,7 +219,7 @@ export default class AnimatedNode {
       if (this._platformConfig) {
         config.platformConfig = this._platformConfig;
       }
-      if (this.__disableBatchingForNativeCreate) {
+      if (this.__disableBatchingForNativeCreate === true) {
         config.disableBatchingForNativeCreate = true;
       }
       NativeAnimatedHelper.API.createAnimatedNode(nativeTag, config);
@@ -224,6 +227,7 @@ export default class AnimatedNode {
     return nativeTag;
   }
 
+  // $FlowFixMe[unclear-type]
   __getNativeConfig(): Object {
     throw new Error(
       'This JS animated node type cannot be used as native animated node',
