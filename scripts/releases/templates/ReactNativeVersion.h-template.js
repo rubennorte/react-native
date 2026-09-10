@@ -23,7 +23,7 @@ module.exports = ({version} /*: {version: Version} */) /*: string */ => `/**
 
 #pragma once
 
-#include <react/cxxstableapi/PrivateGuard.h>
+#include <react/cxxstableapi/UmbrellaGuard.h>
 
 #include <cstdint>
 #include <string_view>

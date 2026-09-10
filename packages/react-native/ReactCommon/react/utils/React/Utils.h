@@ -34,6 +34,7 @@
 #include <react/utils/MoveWrapper.h>
 #include <react/utils/OnScopeExit.h>
 #include <react/utils/PackTraits.h>
+#include <react/utils/ReactNativeVersion.h>
 #include <react/utils/RunLoopObserver.h>
 #include <react/utils/SharedFunction.h>
 #include <react/utils/SimpleThreadSafeCache.h>

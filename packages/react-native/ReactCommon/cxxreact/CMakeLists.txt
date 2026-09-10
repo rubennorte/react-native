@@ -24,6 +24,7 @@ target_link_libraries(react_cxxreact
         jsinspector
         logger
         react_cxxstableapi
+        react_utils
         reactperflogger
         runtimeexecutor
         react_debug)
