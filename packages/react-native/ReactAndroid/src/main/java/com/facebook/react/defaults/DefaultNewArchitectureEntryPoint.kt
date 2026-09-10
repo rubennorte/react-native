@@ -72,19 +72,7 @@ public object DefaultNewArchitectureEntryPoint {
       error(errorMessage)
     }
 
-    when (releaseLevel) {
-      ReleaseLevel.EXPERIMENTAL -> {
-        ReactNativeFeatureFlags.override(
-            ReactNativeFeatureFlagsOverrides_RNOSS_Experimental_Android(),
-        )
-      }
-      ReleaseLevel.CANARY -> {
-        ReactNativeFeatureFlags.override(ReactNativeFeatureFlagsOverrides_RNOSS_Canary_Android())
-      }
-      ReleaseLevel.STABLE -> {
-        ReactNativeFeatureFlags.override(ReactNativeFeatureFlagsOverrides_RNOSS_Stable_Android())
-      }
-    }
+    ReactNativeFeatureFlags.override(getDefaultFeatureFlagsProvider())
 
     privateTurboModulesEnabled = turboModulesEnabled
 
@@ -99,6 +87,13 @@ public object DefaultNewArchitectureEntryPoint {
 
     DefaultSoLoader.maybeLoadSoLibrary()
   }
+
+  internal fun getDefaultFeatureFlagsProvider(): ReactNativeFeatureFlagsProvider =
+      when (releaseLevel) {
+        ReleaseLevel.EXPERIMENTAL -> ReactNativeFeatureFlagsOverrides_RNOSS_Experimental_Android()
+        ReleaseLevel.CANARY -> ReactNativeFeatureFlagsOverrides_RNOSS_Canary_Android()
+        ReleaseLevel.STABLE -> ReactNativeFeatureFlagsOverrides_RNOSS_Stable_Android()
+      }
 
   @JvmStatic
   public val fabricEnabled: Boolean
