@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <react/renderer/attributedstring/ParagraphAttributes.h>
+#include <react/renderer/attributedstring/conversions.h>
 
 namespace facebook::react {
 
@@ -68,6 +69,18 @@ TEST(
   set.textAlignVertical = TextAlignmentVertical::Auto;
 
   EXPECT_FALSE(unset == set);
+}
+
+TEST(ParagraphAttributesTest, testOperatorEqualsIncludesTextWidthMode) {
+  ParagraphAttributes autoWidth{};
+  ParagraphAttributes longestLineWidth{};
+  longestLineWidth.textWidthMode = TextWidthMode::LongestLine;
+
+  EXPECT_FALSE(autoWidth == longestLineWidth);
+}
+
+TEST(ParagraphAttributesTest, testAutoTextWidthModeSerializesAsAuto) {
+  EXPECT_EQ(toString(TextWidthMode::Auto), "auto");
 }
 
 } // namespace facebook::react

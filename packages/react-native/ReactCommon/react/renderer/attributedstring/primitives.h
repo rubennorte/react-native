@@ -94,6 +94,11 @@ enum class TextBreakStrategy {
   Balanced // Balances line lengths.
 };
 
+enum class TextWidthMode {
+  Auto,
+  LongestLine,
+};
+
 enum class TextAlignment {
   Natural, // Indicates the default alignment for script.
   Left, // Visually left aligned.

@@ -48,6 +48,8 @@ class ParagraphAttributes : public DebugStringConvertible {
    */
   TextBreakStrategy textBreakStrategy{TextBreakStrategy::HighQuality};
 
+  TextWidthMode textWidthMode{TextWidthMode::Auto};
+
   /*
    * Enables font size adjustment to fit constrained boundaries.
    */
@@ -105,6 +107,7 @@ struct hash<facebook::react::ParagraphAttributes> {
         attributes.maximumNumberOfLines,
         attributes.ellipsizeMode,
         attributes.textBreakStrategy,
+        attributes.textWidthMode,
         attributes.adjustsFontSizeToFit,
         attributes.minimumFontSize,
         attributes.maximumFontSize,

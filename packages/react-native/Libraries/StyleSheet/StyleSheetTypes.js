@@ -1007,6 +1007,14 @@ export type ____FontVariationSettings_Internal =
 
 type ____TextStyle_InternalBase = Readonly<{
   color?: ____ColorValue_Internal,
+  /**
+   * Controls how wrapped text contributes its width to layout. `longest-line`
+   * uses the width of the longest rendered line instead of the wrapping
+   * constraint.
+   *
+   * @default `'auto'`
+   */
+  experimental_textWidthMode?: 'auto' | 'longest-line',
   fontFamily?: string,
   fontSize?: number,
   fontStyle?: 'normal' | 'italic',
