@@ -42,7 +42,6 @@ import typeof {
   create as createAttributePayload,
   diff as diffAttributePayloads,
 } from '../Libraries/ReactNative/ReactFabricPublicInstance/ReactNativeAttributePayload';
-import typeof UIManager from '../Libraries/ReactNative/UIManager';
 import typeof * as ReactNativeViewConfigRegistry from '../Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 import typeof flattenStyle from '../Libraries/StyleSheet/flattenStyle';
 import type {DangerouslyImpreciseStyleProp} from '../Libraries/StyleSheet/StyleSheet';
@@ -79,9 +78,6 @@ module.exports = {
   },
   get TextInputState(): TextInputState {
     return require('../Libraries/Components/TextInput/TextInputState').default;
-  },
-  get UIManager(): UIManager {
-    return require('../Libraries/ReactNative/UIManager').default;
   },
   get fabricUIManager(): ?FabricUIManager {
     return require('../Libraries/ReactNative/FabricUIManager').getFabricUIManager();
