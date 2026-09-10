@@ -61,37 +61,6 @@
 using namespace facebook;
 using namespace facebook::react;
 
-__attribute__((deprecated(
-    "RCTBridgelessDisplayLinkModuleHolder is part of the legacy architecture and will be removed in a future React Native release.")))
-@interface RCTBridgelessDisplayLinkModuleHolder : NSObject<RCTDisplayLinkModuleHolder>
-- (instancetype)initWithModule:(id<RCTBridgeModule>)module;
-@end
-
-@implementation RCTBridgelessDisplayLinkModuleHolder {
-  id<RCTBridgeModule> _module;
-}
-- (instancetype)initWithModule:(id<RCTBridgeModule>)module
-{
-  _module = module;
-  return self;
-}
-
-- (id<RCTBridgeModule>)instance
-{
-  return _module;
-}
-
-- (Class)moduleClass
-{
-  return [_module class];
-}
-
-- (dispatch_queue_t)methodQueue
-{
-  return _module.methodQueue;
-}
-@end
-
 @interface RCTInstance () <RCTTurboModuleManagerDelegate>
 @end
 
@@ -423,7 +392,7 @@ __attribute__((deprecated(
   }];
 
   // DisplayLink is used to call timer callbacks.
-  _displayLink = [RCTDisplayLink new];
+  _displayLink = [[RCTDisplayLink alloc] initWithFrameUpdateObserver:timing];
 
   auto &inspectorFlags = jsinspector_modern::InspectorFlags::getInstance();
   ReactInstance::JSRuntimeFlags options = {.isProfiling = inspectorFlags.getIsProfilingBuild()};
@@ -447,12 +416,7 @@ __attribute__((deprecated(
 
     [strongSelf->_delegate instance:strongSelf didInitializeRuntime:runtime];
 
-// Set up Display Link
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    id<RCTDisplayLinkModuleHolder> moduleHolder = [[RCTBridgelessDisplayLinkModuleHolder alloc] initWithModule:timing];
-    [strongSelf->_displayLink registerModuleForFrameUpdates:timing withModuleHolder:moduleHolder];
-#pragma clang diagnostic pop
+    // Set up Display Link
     [strongSelf->_displayLink addToRunLoop:[NSRunLoop currentRunLoop]];
 
     // Attempt to load bundle synchronously, fallback to asynchronously.
