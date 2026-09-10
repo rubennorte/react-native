@@ -40,50 +40,34 @@ public object DefaultNewArchitectureEntryPoint {
    */
   @JvmStatic
   public fun load() {
-    load(turboModulesEnabled = true, fabricEnabled = true, bridgelessEnabled = true)
+    load(turboModulesEnabled = true, fabricEnabled = true)
   }
 
   @JvmStatic
   @Deprecated(
       message =
-          "Loading the entry point with different flags for Fabric, TurboModule and Bridgeless is deprecated." +
-              "Please use load() instead when loading the New Architecture.",
+          "Loading the entry point with different flags for Fabric and TurboModule is deprecated." +
+              " Please use load() instead when loading the New Architecture.",
       replaceWith = ReplaceWith("load()"),
   )
   public fun load(
       turboModulesEnabled: Boolean = true,
   ) {
-    load(turboModulesEnabled, fabricEnabled = true, bridgelessEnabled = true)
+    load(turboModulesEnabled, fabricEnabled = true)
   }
 
   @JvmStatic
   @Deprecated(
       message =
-          "Loading the entry point with different flags for Fabric, TurboModule and Bridgeless is deprecated." +
-              "Please use load() instead when loading the New Architecture.",
-      replaceWith = ReplaceWith("load()"),
-  )
-  public fun load(
-      turboModulesEnabled: Boolean = true,
-      fabricEnabled: Boolean = true,
-  ) {
-    load(turboModulesEnabled, fabricEnabled, bridgelessEnabled = true)
-  }
-
-  @JvmStatic
-  @Deprecated(
-      message =
-          "Loading the entry point with different flags for Fabric, TurboModule and Bridgeless is deprecated." +
-              "Please use load() instead when loading the New Architecture.",
+          "Loading the entry point with different flags for Fabric and TurboModule is deprecated." +
+              " Please use load() instead when loading the New Architecture.",
       replaceWith = ReplaceWith("load()"),
   )
   public fun load(
       turboModulesEnabled: Boolean = true,
       fabricEnabled: Boolean = true,
-      bridgelessEnabled: Boolean = true,
   ) {
-    val (isValid, errorMessage) =
-        isConfigurationValid(turboModulesEnabled, fabricEnabled, bridgelessEnabled)
+    val (isValid, errorMessage) = isConfigurationValid(turboModulesEnabled, fabricEnabled)
     if (!isValid) {
       error(errorMessage)
     }
@@ -103,7 +87,6 @@ public object DefaultNewArchitectureEntryPoint {
     }
 
     privateTurboModulesEnabled = turboModulesEnabled
-    privateBridgelessEnabled = bridgelessEnabled
 
     DefaultSoLoader.maybeLoadSoLibrary()
   }
@@ -113,17 +96,6 @@ public object DefaultNewArchitectureEntryPoint {
     ReactNativeFeatureFlags.override(featureFlags)
 
     privateTurboModulesEnabled = true
-    privateBridgelessEnabled = featureFlags.enableBridgelessArchitecture()
-
-    val (isValid, errorMessage) =
-        isConfigurationValid(
-            privateTurboModulesEnabled,
-            true,
-            privateBridgelessEnabled,
-        )
-    if (!isValid) {
-      error(errorMessage)
-    }
 
     DefaultSoLoader.maybeLoadSoLibrary()
   }
@@ -142,24 +114,17 @@ public object DefaultNewArchitectureEntryPoint {
   public val concurrentReactEnabled: Boolean
     get() = true
 
-  private var privateBridgelessEnabled: Boolean = false
-
-  @JvmStatic
-  public val bridgelessEnabled: Boolean
-    get() = privateBridgelessEnabled
-
   @VisibleForTesting
   public fun isConfigurationValid(
       turboModulesEnabled: Boolean,
       fabricEnabled: Boolean,
-      bridgelessEnabled: Boolean,
   ): Pair<Boolean, String> =
-      if (!turboModulesEnabled || !fabricEnabled || !bridgelessEnabled) {
+      if (!turboModulesEnabled || !fabricEnabled) {
         false to
             "You cannot load React Native with the New Architecture disabled. " +
                 "Please use DefaultNewArchitectureEntryPoint.load() instead of " +
                 "DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=$turboModulesEnabled, " +
-                "fabricEnabled=$fabricEnabled, bridgelessEnabled=$bridgelessEnabled)"
+                "fabricEnabled=$fabricEnabled)"
       } else {
         true to ""
       }

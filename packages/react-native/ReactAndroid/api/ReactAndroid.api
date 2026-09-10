@@ -1768,7 +1768,6 @@ public final class com/facebook/react/defaults/DefaultComponentsRegistry {
 
 public final class com/facebook/react/defaults/DefaultNewArchitectureEntryPoint {
 	public static final field INSTANCE Lcom/facebook/react/defaults/DefaultNewArchitectureEntryPoint;
-	public static final fun getBridgelessEnabled ()Z
 	public static final fun getConcurrentReactEnabled ()Z
 	public static final fun getFabricEnabled ()Z
 	public final fun getReleaseLevel ()Lcom/facebook/react/common/ReleaseLevel;
@@ -1776,10 +1775,8 @@ public final class com/facebook/react/defaults/DefaultNewArchitectureEntryPoint 
 	public static final fun load ()V
 	public static final fun load (Z)V
 	public static final fun load (ZZ)V
-	public static final fun load (ZZZ)V
 	public static synthetic fun load$default (ZILjava/lang/Object;)V
 	public static synthetic fun load$default (ZZILjava/lang/Object;)V
-	public static synthetic fun load$default (ZZZILjava/lang/Object;)V
 	public final fun setReleaseLevel (Lcom/facebook/react/common/ReleaseLevel;)V
 }
 

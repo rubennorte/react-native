@@ -18,27 +18,11 @@ class DefaultNewArchitectureEntryPointTest {
         DefaultNewArchitectureEntryPoint.isConfigurationValid(
             turboModulesEnabled = false,
             fabricEnabled = false,
-            bridgelessEnabled = false,
         )
     assertThat(isValid).isFalse()
     assertThat(errorMessage)
         .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=false, fabricEnabled=false, bridgelessEnabled=false)",
-        )
-  }
-
-  @Test
-  fun isConfigurationValid_withNewArchOnlyOn_returnsFalse() {
-    val (isValid, errorMessage) =
-        DefaultNewArchitectureEntryPoint.isConfigurationValid(
-            turboModulesEnabled = true,
-            fabricEnabled = true,
-            bridgelessEnabled = false,
-        )
-    assertThat(isValid).isFalse()
-    assertThat(errorMessage)
-        .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=true, fabricEnabled=true, bridgelessEnabled=false)",
+            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=false, fabricEnabled=false)",
         )
   }
 
@@ -48,24 +32,12 @@ class DefaultNewArchitectureEntryPointTest {
         DefaultNewArchitectureEntryPoint.isConfigurationValid(
             turboModulesEnabled = true,
             fabricEnabled = false,
-            bridgelessEnabled = false,
         )
     assertThat(isValid).isFalse()
     assertThat(errorMessage)
         .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=true, fabricEnabled=false, bridgelessEnabled=false)",
+            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=true, fabricEnabled=false)",
         )
-  }
-
-  @Test
-  fun isConfigurationValid_withBridgelessOn_returnsTrue() {
-    val (isValid, _) =
-        DefaultNewArchitectureEntryPoint.isConfigurationValid(
-            turboModulesEnabled = true,
-            fabricEnabled = true,
-            bridgelessEnabled = true,
-        )
-    assertThat(isValid).isTrue()
   }
 
   @Test
@@ -74,42 +46,21 @@ class DefaultNewArchitectureEntryPointTest {
         DefaultNewArchitectureEntryPoint.isConfigurationValid(
             turboModulesEnabled = false,
             fabricEnabled = true,
-            bridgelessEnabled = false,
         )
     assertThat(isValid).isFalse()
     assertThat(errorMessage)
         .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=false, fabricEnabled=true, bridgelessEnabled=false)",
+            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=false, fabricEnabled=true)",
         )
   }
 
   @Test
-  fun isConfigurationValid_withBridgelessWithoutTurboModules_returnsFalse() {
-    val (isValid, errorMessage) =
-        DefaultNewArchitectureEntryPoint.isConfigurationValid(
-            turboModulesEnabled = false,
-            fabricEnabled = true,
-            bridgelessEnabled = true,
-        )
-    assertThat(isValid).isFalse()
-    assertThat(errorMessage)
-        .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=false, fabricEnabled=true, bridgelessEnabled=true)",
-        )
-  }
-
-  @Test
-  fun isConfigurationValid_withBridgelessWithoutFabric_returnsFalse() {
-    val (isValid, errorMessage) =
+  fun isConfigurationValid_withEverythingOn_returnsTrue() {
+    val (isValid, _) =
         DefaultNewArchitectureEntryPoint.isConfigurationValid(
             turboModulesEnabled = true,
-            fabricEnabled = false,
-            bridgelessEnabled = true,
+            fabricEnabled = true,
         )
-    assertThat(isValid).isFalse()
-    assertThat(errorMessage)
-        .isEqualTo(
-            "You cannot load React Native with the New Architecture disabled. Please use DefaultNewArchitectureEntryPoint.load() instead of DefaultNewArchitectureEntryPoint.load(turboModulesEnabled=true, fabricEnabled=false, bridgelessEnabled=true)",
-        )
+    assertThat(isValid).isTrue()
   }
 }
