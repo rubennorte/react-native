@@ -116,11 +116,6 @@
   return YES;
 }
 
-- (BOOL)bridgelessEnabled
-{
-  return YES;
-}
-
 - (BOOL)fabricEnabled
 {
   return YES;

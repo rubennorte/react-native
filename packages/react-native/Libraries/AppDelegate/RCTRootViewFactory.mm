@@ -42,37 +42,12 @@
   return [self initWithBundleURLBlock:bundleURLBlock];
 }
 
-- (instancetype)initWithBundleURL:(NSURL *)bundleURL
-                   newArchEnabled:(BOOL)newArchEnabled
-               turboModuleEnabled:(BOOL)turboModuleEnabled
-                bridgelessEnabled:(BOOL)bridgelessEnabled
-{
-  return [self initWithBundleURLBlock:^{
-    return bundleURL;
-  }];
-}
-
-- (instancetype)initWithBundleURLBlock:(RCTBundleURLBlock)bundleURLBlock
-                        newArchEnabled:(BOOL)newArchEnabled
-                    turboModuleEnabled:(BOOL)turboModuleEnabled
-                     bridgelessEnabled:(BOOL)bridgelessEnabled
-{
-  if (self = [super init]) {
-    _bundleURLBlock = bundleURLBlock;
-    _fabricEnabled = YES;
-    _turboModuleEnabled = YES;
-    _bridgelessEnabled = YES;
-  }
-  return self;
-}
-
 - (instancetype)initWithBundleURLBlock:(RCTBundleURLBlock)bundleURLBlock
 {
   if (self = [super init]) {
     _bundleURLBlock = bundleURLBlock;
     _fabricEnabled = YES;
     _turboModuleEnabled = YES;
-    _bridgelessEnabled = YES;
   }
   return self;
 }
