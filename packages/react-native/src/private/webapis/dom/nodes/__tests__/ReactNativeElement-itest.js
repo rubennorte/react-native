@@ -1698,8 +1698,6 @@ describe('ReactNativeElement', () => {
     // EventTarget API is gated behind `enableImperativeEvents`: when it is off
     // the methods are removed from this final class, when it is on they are
     // available.
-    const {isOSS} = Fantom.getConstants();
-
     if (!ReactNativeFeatureFlags.enableImperativeEvents()) {
       describe('when `enableImperativeEvents` is off (default)', () => {
         it('removes the public EventTarget methods', () => {
@@ -1720,31 +1718,28 @@ describe('ReactNativeElement', () => {
 
         // Removing the public API must not affect native/prop event delivery,
         // which goes through the internal (symbol-keyed) dispatch path.
-        (isOSS ? it.skip : it)(
-          'still delivers native events to prop handlers',
-          () => {
-            const ref = createRef<HostInstance>();
-            const onPointerUp = jest.fn();
-            const root = Fantom.createRoot();
+        it('still delivers native events to prop handlers', () => {
+          const ref = createRef<HostInstance>();
+          const onPointerUp = jest.fn();
+          const root = Fantom.createRoot();
 
-            Fantom.runTask(() => {
-              root.render(<View ref={ref} onPointerUp={onPointerUp} />);
-            });
+          Fantom.runTask(() => {
+            root.render(<View ref={ref} onPointerUp={onPointerUp} />);
+          });
 
-            expect(onPointerUp).toHaveBeenCalledTimes(0);
+          expect(onPointerUp).toHaveBeenCalledTimes(0);
 
-            Fantom.dispatchNativeEvent(
-              ref,
-              'onPointerUp',
-              {x: 0, y: 0},
-              {
-                category: Fantom.NativeEventCategory.Discrete,
-              },
-            );
+          Fantom.dispatchNativeEvent(
+            ref,
+            'onPointerUp',
+            {x: 0, y: 0},
+            {
+              category: Fantom.NativeEventCategory.Discrete,
+            },
+          );
 
-            expect(onPointerUp).toHaveBeenCalledTimes(1);
-          },
-        );
+          expect(onPointerUp).toHaveBeenCalledTimes(1);
+        });
       });
     }
 
