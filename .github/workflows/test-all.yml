@@ -184,6 +184,8 @@ jobs:
       download-path: /tmp/RNTesterBuild/RNTester.app
       app-file: /tmp/RNTesterBuild/RNTester.app
       app-id: com.meta.RNTester.localDevelopment
+      device-model: iPhone-17-Pro
+      device-os: iOS-26-2
       exclude-tags: android-only
     secrets: inherit
 

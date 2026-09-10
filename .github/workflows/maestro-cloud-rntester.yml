@@ -26,6 +26,14 @@ on:
         description: 'RNTester application identifier'
         required: true
         type: string
+      device-model:
+        description: 'Device model passed to Maestro Cloud'
+        required: false
+        type: string
+      device-os:
+        description: 'Device OS passed to Maestro Cloud'
+        required: false
+        type: string
       exclude-tags:
         description: 'Maestro flow tags to exclude'
         required: true
@@ -70,6 +78,8 @@ jobs:
           workspace: packages/rn-tester/.maestro
           branch: ${{ github.head_ref || github.ref_name }}
           name: RNTester ${{ inputs.platform }} - ${{ github.event.pull_request.title || github.sha }}
+          device-model: ${{ inputs.device-model }}
+          device-os: ${{ inputs.device-os }}
           exclude-tags: ${{ inputs.exclude-tags }}
           env: |
             APP_ID=${{ inputs.app-id }}

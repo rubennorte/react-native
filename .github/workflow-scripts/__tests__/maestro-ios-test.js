@@ -78,4 +78,33 @@ describe('Maestro iOS runner', () => {
       udid: 'new-pro',
     });
   });
+
+  it('selects the configured device model and OS', () => {
+    childProcess.execSync.mockReturnValue(
+      JSON.stringify({
+        devices: {
+          'com.apple.CoreSimulator.SimRuntime.iOS-26-0': [
+            {name: 'iPhone 17 Pro', udid: 'wrong-runtime'},
+          ],
+          'com.apple.CoreSimulator.SimRuntime.iOS-26-2': [
+            {name: 'iPhone 17 Pro Max', udid: 'wrong-model'},
+            {name: 'iPhone 17 Pro', udid: 'expected'},
+          ],
+        },
+      }),
+    );
+
+    expect(findAvailableSimulator('iPhone-17-Pro', 'iOS-26-2')).toEqual({
+      name: 'iPhone 17 Pro',
+      udid: 'expected',
+    });
+  });
+
+  it('fails when the configured simulator is unavailable', () => {
+    childProcess.execSync.mockReturnValue(JSON.stringify({devices: {}}));
+
+    expect(() => findAvailableSimulator('iPhone-17-Pro', 'iOS-26-2')).toThrow(
+      'Unable to find iPhone 17 Pro simulator on iOS-26-2',
+    );
+  });
 });

@@ -12,7 +12,7 @@ const fs = require('fs');
 
 const usage = `
 === Usage ===
-node maestro-android.js <path to app> <app_id> <maestro_flow> <flavor> <working_directory>
+node maestro-ios.js <path to app> <app_id> <maestro_flow> <jsengine> <flavor> <working_directory> [device_model] [device_os]
 
 @param {string} appPath - Path to the app APK
 @param {string} appId - App ID that needs to be launched
@@ -20,18 +20,40 @@ node maestro-android.js <path to app> <app_id> <maestro_flow> <flavor> <working_
 @param {string} jsengine - The JSEngine to use for the test
 @param {string} flavor - Flavor of the app to be launched. Can be 'Release' or 'Debug'
 @param {string} workingDirectory - Working directory from where to run Metro
+@param {string} deviceModel - Optional Maestro device model, such as iPhone-17-Pro
+@param {string} deviceOS - Optional Maestro device OS, such as iOS-26-2
 ==============
 `;
 
 const MAX_ATTEMPTS = 5;
 
-function findAvailableSimulator() {
+function findAvailableSimulator(deviceModel, deviceOS) {
   const output = childProcess.execSync(
     'xcrun simctl list devices available -j',
   );
-  const devices = Object.values(JSON.parse(String(output)).devices)
-    .flat()
-    .reverse();
+  const devicesByRuntime = JSON.parse(String(output)).devices;
+
+  if ((deviceModel == null) !== (deviceOS == null)) {
+    throw new Error('Device model and OS must be configured together');
+  }
+
+  if (deviceModel != null && deviceOS != null) {
+    const runtime = `com.apple.CoreSimulator.SimRuntime.${deviceOS}`;
+    const simulatorName = deviceModel.replaceAll('-', ' ');
+    const simulator = devicesByRuntime[runtime]?.find(
+      device => device.name === simulatorName,
+    );
+
+    if (simulator == null) {
+      throw new Error(
+        `Unable to find ${simulatorName} simulator on ${deviceOS}`,
+      );
+    }
+
+    return simulator;
+  }
+
+  const devices = Object.values(devicesByRuntime).flat().reverse();
   const simulator = devices.find(device => /^iPhone .* Pro$/.test(device.name));
 
   if (simulator == null) {
@@ -153,7 +175,7 @@ function executeFlows(appId, udid, maestroFlow, jsengine) {
 }
 
 async function main(args = process.argv.slice(2)) {
-  if (args.length !== 6) {
+  if (args.length < 6 || args.length > 8) {
     throw new Error(`Invalid number of arguments.\n${usage}`);
   }
 
@@ -163,6 +185,8 @@ async function main(args = process.argv.slice(2)) {
   const jsengine = args[3];
   const isDebug = args[4] === 'Debug';
   const workingDirectory = args[5];
+  const deviceModel = args[6] || null;
+  const deviceOS = args[7] || null;
 
   console.info('\n==============================');
   console.info('Running tests for iOS with the following parameters:');
@@ -172,9 +196,11 @@ async function main(args = process.argv.slice(2)) {
   console.info(`JS_ENGINE: ${jsengine}`);
   console.info(`IS_DEBUG: ${isDebug}`);
   console.info(`WORKING_DIRECTORY: ${workingDirectory}`);
+  console.info(`DEVICE_MODEL: ${deviceModel ?? '<automatic>'}`);
+  console.info(`DEVICE_OS: ${deviceOS ?? '<automatic>'}`);
   console.info('==============================\n');
 
-  const simulator = findAvailableSimulator();
+  const simulator = findAvailableSimulator(deviceModel, deviceOS);
   launchSimulator(simulator);
   installAppOnSimulator(appPath);
   bringSimulatorInForeground();
