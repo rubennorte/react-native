@@ -20,6 +20,8 @@
 
 namespace facebook::react {
 
+class ShadowTreeRevisionConsistencyManager;
+
 class RuntimeScheduler_Legacy final : public RuntimeSchedulerBase {
  public:
   explicit RuntimeScheduler_Legacy(

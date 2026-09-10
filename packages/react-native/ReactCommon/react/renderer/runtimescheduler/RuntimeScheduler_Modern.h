@@ -19,6 +19,8 @@
 
 namespace facebook::react {
 
+class ShadowTreeRevisionConsistencyManager;
+
 class RuntimeScheduler_Modern final : public RuntimeSchedulerBase {
  public:
   explicit RuntimeScheduler_Modern(
