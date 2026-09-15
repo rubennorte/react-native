@@ -227,6 +227,11 @@ export type {VirtualizedListInstance} from './Libraries/Lists/VirtualizedList';
 export {default as VirtualizedList} from './Libraries/Lists/VirtualizedList';
 
 export type {
+  ViewabilityConfig,
+  ViewabilityConfigCallbackPair,
+} from './Libraries/Lists/ViewabilityHelper';
+
+export type {
   ScrollToLocationParamsType,
   SectionBase,
   VirtualizedSectionListProps,
