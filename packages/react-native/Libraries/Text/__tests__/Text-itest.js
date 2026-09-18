@@ -23,8 +23,6 @@ import accessibilityPropsSuite, {
   rolePropSuite,
 } from 'react-native/src/private/__tests__/utilities/accessibilityPropsSuite';
 import {testIDPropSuite} from 'react-native/src/private/__tests__/utilities/commonPropsSuite';
-import ReadOnlyElement from 'react-native/src/private/webapis/dom/nodes/ReadOnlyElement';
-import ReadOnlyText from 'react-native/src/private/webapis/dom/nodes/ReadOnlyText';
 
 const TEST_TEXT = 'the text';
 
@@ -661,7 +659,7 @@ describe('<Text>', () => {
       const element = nullthrows(elementRef.current);
       expect(element.childNodes.length).toBe(1);
 
-      const textChild = ensureInstance(element.childNodes[0], ReadOnlyText);
+      const textChild = ensureInstance(element.childNodes[0], globalThis.Text);
       expect(textChild.textContent).toBe(TEST_TEXT);
     });
 
@@ -681,19 +679,16 @@ describe('<Text>', () => {
       const element = nullthrows(elementRef.current);
       expect(element.childNodes.length).toBe(2);
 
-      const firstChild = ensureInstance(element.childNodes[0], ReadOnlyText);
+      const firstChild = ensureInstance(element.childNodes[0], globalThis.Text);
       expect(firstChild.textContent).toBe('Some text ');
 
-      const secondChild = ensureInstance(
-        element.childNodes[1],
-        ReadOnlyElement,
-      );
+      const secondChild = ensureInstance(element.childNodes[1], Element);
       expect(secondChild.tagName).toBe('RN:Text');
       expect(secondChild.childNodes.length).toBe(1);
 
       const secondChildText = ensureInstance(
         secondChild.childNodes[0],
-        ReadOnlyText,
+        globalThis.Text,
       );
       expect(secondChildText.textContent).toBe('also in bold');
     });

@@ -21,7 +21,6 @@ import {createRef} from 'react';
 import {View} from 'react-native';
 import ReactNativeDocument from 'react-native/src/private/webapis/dom/nodes/ReactNativeDocument';
 import ReactNativeElement from 'react-native/src/private/webapis/dom/nodes/ReactNativeElement';
-import ReadOnlyNode from 'react-native/src/private/webapis/dom/nodes/ReadOnlyNode';
 
 describe('ReactNativeDocument', () => {
   it('is connected until the surface is destroyed', () => {
@@ -99,7 +98,7 @@ describe('ReactNativeDocument', () => {
     const document = ensureInstance(element.ownerDocument, ReactNativeDocument);
 
     expect(document.nodeName).toBe('#document');
-    expect(document.nodeType).toBe(ReadOnlyNode.DOCUMENT_NODE);
+    expect(document.nodeType).toBe(Node.DOCUMENT_NODE);
     expect(document.nodeValue).toBe(null);
     expect(document.textContent).toBe(null);
   });
@@ -155,28 +154,22 @@ describe('ReactNativeDocument', () => {
     ).toBe(0);
 
     expect(document.compareDocumentPosition(documentElement)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINED_BY |
-        ReadOnlyNode.DOCUMENT_POSITION_FOLLOWING,
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(document.compareDocumentPosition(element)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINED_BY |
-        ReadOnlyNode.DOCUMENT_POSITION_FOLLOWING,
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(documentElement.compareDocumentPosition(document)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINS |
-        ReadOnlyNode.DOCUMENT_POSITION_PRECEDING,
+      Node.DOCUMENT_POSITION_CONTAINS | Node.DOCUMENT_POSITION_PRECEDING,
     );
     expect(documentElement.compareDocumentPosition(element)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINED_BY |
-        ReadOnlyNode.DOCUMENT_POSITION_FOLLOWING,
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(element.compareDocumentPosition(document)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINS |
-        ReadOnlyNode.DOCUMENT_POSITION_PRECEDING,
+      Node.DOCUMENT_POSITION_CONTAINS | Node.DOCUMENT_POSITION_PRECEDING,
     );
     expect(element.compareDocumentPosition(documentElement)).toBe(
-      ReadOnlyNode.DOCUMENT_POSITION_CONTAINS |
-        ReadOnlyNode.DOCUMENT_POSITION_PRECEDING,
+      Node.DOCUMENT_POSITION_CONTAINS | Node.DOCUMENT_POSITION_PRECEDING,
     );
   });
 

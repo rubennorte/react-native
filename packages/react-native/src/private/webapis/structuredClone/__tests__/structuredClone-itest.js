@@ -20,7 +20,6 @@ import {createRef} from 'react';
 import {View} from 'react-native';
 import setUpIntersectionObserver from 'react-native/src/private/setup/setUpIntersectionObserver';
 import setUpMutationObserver from 'react-native/src/private/setup/setUpMutationObserver';
-import EventTarget from 'react-native/src/private/webapis/dom/events/EventTarget';
 import DOMException from 'react-native/src/private/webapis/errors/DOMException';
 import IntersectionObserver from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserver';
 import IntersectionObserverEntry from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserverEntry';
