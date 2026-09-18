@@ -30,7 +30,7 @@ import {
   unstable_NativeText as NativeText,
 } from 'react-native';
 import {NativeVirtualText} from 'react-native/Libraries/Text/TextNativeComponent';
-import * as ReactNativeFeatureFlags from 'react-native/src/private/featureflags/ReactNativeFeatureFlags';
+import {ReactNativeFeatureFlags} from 'react-native/react-private-interface';
 
 // The public imperative EventTarget API is not part of the static type of this
 // final class (it is only present at runtime, gated by feature flags), so we

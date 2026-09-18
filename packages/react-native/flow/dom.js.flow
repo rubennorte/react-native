@@ -620,7 +620,7 @@ type EventInit = Event$Init;
 
 // https://dom.spec.whatwg.org/#interface-event
 declare class Event {
-  constructor(type: string, eventInitDict?: Event$Init): void;
+  constructor(type: string, eventInitDict?: ?Event$Init): void;
   /**
    * Returns the type of event, e.g. "click", "hashchange", or "submit".
    */
@@ -713,10 +713,17 @@ declare class Event {
   /** Non-standard. See Event.prototype.composed */
   readonly scoped: boolean;
 
+  cancelBubble: boolean;
+
   /**
    * @deprecated
    */
   initEvent(type: string, bubbles: boolean, cancelable: boolean): void;
+
+  static readonly NONE: 0;
+  static readonly CAPTURING_PHASE: 1;
+  static readonly AT_TARGET: 2;
+  static readonly BUBBLING_PHASE: 3;
 }
 
 type CustomEvent$Init = {...Event$Init, detail?: any, ...};
