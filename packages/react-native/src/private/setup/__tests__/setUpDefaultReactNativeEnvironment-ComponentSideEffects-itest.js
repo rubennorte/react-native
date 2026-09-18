@@ -8,7 +8,7 @@
  * @format
  */
 
-import setUpDefaultReactNativeEnvironment from 'react-native/src/private/setup/setUpDefaultReactNativeEnvironment';
+import setUpDefaultReactNativeEnvironment from '../setUpDefaultReactNativeEnvironment';
 
 describe('setUpReactNativeEnvironment (components side-effects)', () => {
   it('should not load components as a side effect', () => {
