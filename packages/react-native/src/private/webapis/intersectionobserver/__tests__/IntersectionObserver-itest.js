@@ -11,9 +11,9 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
+import type IntersectionObserverType from '../IntersectionObserver';
+import type IntersectionObserverEntryType from '../IntersectionObserverEntry';
 import type {HostInstance} from 'react-native';
-import type IntersectionObserverType from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserver';
-import type IntersectionObserverEntryType from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserverEntry';
 
 import {createShadowNodeReferenceCountingRef} from '../../../__tests__/utilities/ShadowNodeReferenceCounter';
 import * as Fantom from '@react-native/fantom';

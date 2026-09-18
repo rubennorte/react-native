@@ -10,11 +10,11 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
+import {HardwareBackPressEvent} from '../HardwareBackPressEvent';
 import {BackHandler, DeviceEventEmitter} from 'react-native';
-import {HardwareBackPressEvent as HardwareBackPressEventClass} from 'react-native/Libraries/Utilities/HardwareBackPressEvent';
 
 type BackPressHandler = Parameters<typeof BackHandler.addEventListener>[1];
-type HardwareBackPressEvent = Parameters<BackPressHandler>[0];
+type HardwareBackPressEventType = Parameters<BackPressHandler>[0];
 
 describe('BackHandler', () => {
   const subscriptions: Array<{remove: () => void, ...}> = [];
@@ -28,11 +28,11 @@ describe('BackHandler', () => {
 
   it('calls handlers in reverse order (LIFO)', () => {
     const callOrder: Array<string> = [];
-    const handler1 = (_event: HardwareBackPressEvent) => {
+    const handler1 = (_event: HardwareBackPressEventType) => {
       callOrder.push('first');
       return false;
     };
-    const handler2 = (_event: HardwareBackPressEvent) => {
+    const handler2 = (_event: HardwareBackPressEventType) => {
       callOrder.push('second');
       return true;
     };
@@ -51,11 +51,11 @@ describe('BackHandler', () => {
 
   it('calls all handlers when none return true', () => {
     const callOrder: Array<string> = [];
-    const handler1 = (_event: HardwareBackPressEvent) => {
+    const handler1 = (_event: HardwareBackPressEventType) => {
       callOrder.push('first');
       return false;
     };
-    const handler2 = (_event: HardwareBackPressEvent) => {
+    const handler2 = (_event: HardwareBackPressEventType) => {
       callOrder.push('second');
       return false;
     };
@@ -73,8 +73,8 @@ describe('BackHandler', () => {
   });
 
   it('passes HardwareBackPressEvent to handlers', () => {
-    let receivedEvent: ?HardwareBackPressEvent = null;
-    const handler = (event: HardwareBackPressEvent) => {
+    let receivedEvent: ?HardwareBackPressEventType = null;
+    const handler = (event: HardwareBackPressEventType) => {
       receivedEvent = event;
       return true;
     };
@@ -85,12 +85,12 @@ describe('BackHandler', () => {
 
     DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 42});
 
-    expect(receivedEvent).toBeInstanceOf(HardwareBackPressEventClass);
+    expect(receivedEvent).toBeInstanceOf(HardwareBackPressEvent);
   });
 
   it('event has native timestamp as timeStamp', () => {
-    let receivedEvent: ?HardwareBackPressEvent = null;
-    const handler = (event: HardwareBackPressEvent) => {
+    let receivedEvent: ?HardwareBackPressEventType = null;
+    const handler = (event: HardwareBackPressEventType) => {
       receivedEvent = event;
       return true;
     };
@@ -105,8 +105,8 @@ describe('BackHandler', () => {
   });
 
   it('event falls back to performance.now() when no native timestamp', () => {
-    let receivedEvent: ?HardwareBackPressEvent = null;
-    const handler = (event: HardwareBackPressEvent) => {
+    let receivedEvent: ?HardwareBackPressEventType = null;
+    const handler = (event: HardwareBackPressEventType) => {
       receivedEvent = event;
       return true;
     };
@@ -129,7 +129,7 @@ describe('BackHandler', () => {
 
   it('removes handler on subscription.remove()', () => {
     let called = false;
-    const handler = (_event: HardwareBackPressEvent) => {
+    const handler = (_event: HardwareBackPressEventType) => {
       called = true;
       return true;
     };

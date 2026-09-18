@@ -13,7 +13,7 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import {
   setEventInitTimeStamp,
   setInPassiveListenerFlag,
-} from 'react-native/src/private/webapis/dom/events/internals/EventInternals';
+} from '../internals/EventInternals';
 
 type EventOptions = EventInit & {
   rnIsDirect?: boolean,

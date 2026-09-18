@@ -11,9 +11,9 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
+import type IntersectionObserverType from '../IntersectionObserver';
 import type {Root} from '@react-native/fantom';
 import type {HostInstance} from 'react-native';
-import type IntersectionObserverType from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserver';
 
 import * as Fantom from '@react-native/fantom';
 import nullthrows from 'nullthrows';

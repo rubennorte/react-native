@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @fantom_flags enableIntersectionObserverByDefault:true
+ * @fantom_flags enableMutationObserverByDefault:true
  * @flow strict-local
  * @format
  */
@@ -14,19 +15,16 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import type {HostInstance} from 'react-native';
 
 import ensureInstance from '../../../__tests__/utilities/ensureInstance';
+import DOMException from '../../errors/DOMException';
+import IntersectionObserver from '../../intersectionobserver/IntersectionObserver';
+import IntersectionObserverEntry from '../../intersectionobserver/IntersectionObserverEntry';
+import MutationObserver from '../../mutationobserver/MutationObserver';
+import structuredClone from '../structuredClone';
 import * as Fantom from '@react-native/fantom';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {View} from 'react-native';
-import setUpMutationObserver from 'react-native/src/private/setup/setUpMutationObserver';
-import DOMException from 'react-native/src/private/webapis/errors/DOMException';
-import IntersectionObserver from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserver';
-import IntersectionObserverEntry from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserverEntry';
-import MutationObserver from 'react-native/src/private/webapis/mutationobserver/MutationObserver';
-import structuredClone from 'react-native/src/private/webapis/structuredClone/structuredClone';
-
-setUpMutationObserver();
 
 function expectDataCloneError(fn: () => unknown) {
   try {

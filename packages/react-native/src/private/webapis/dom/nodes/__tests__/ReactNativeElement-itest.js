@@ -17,6 +17,7 @@ import type {HostInstance} from 'react-native';
 
 import ensureInstance from '../../../../__tests__/utilities/ensureInstance';
 import TextInputState from '../../../../../../Libraries/Components/TextInput/TextInputState';
+import {NativeVirtualText} from '../../../../../../Libraries/Text/TextNativeComponent';
 import * as Fantom from '@react-native/fantom';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
@@ -29,7 +30,6 @@ import {
   View,
   unstable_NativeText as NativeText,
 } from 'react-native';
-import {NativeVirtualText} from 'react-native/Libraries/Text/TextNativeComponent';
 import {ReactNativeFeatureFlags} from 'react-native/react-private-interface';
 
 // The public imperative EventTarget API is not part of the static type of this
