@@ -10,11 +10,11 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
-import type {HardwareBackPressEvent} from 'react-native/Libraries/Utilities/BackHandler';
-
-import RCTDeviceEventEmitter from 'react-native/Libraries/EventEmitter/RCTDeviceEventEmitter';
-import BackHandler from 'react-native/Libraries/Utilities/BackHandler';
+import {BackHandler, DeviceEventEmitter} from 'react-native';
 import {HardwareBackPressEvent as HardwareBackPressEventClass} from 'react-native/Libraries/Utilities/HardwareBackPressEvent';
+
+type BackPressHandler = Parameters<typeof BackHandler.addEventListener>[1];
+type HardwareBackPressEvent = Parameters<BackPressHandler>[0];
 
 describe('BackHandler', () => {
   const subscriptions: Array<{remove: () => void, ...}> = [];
@@ -44,7 +44,7 @@ describe('BackHandler', () => {
       BackHandler.addEventListener('hardwareBackPress', handler2),
     );
 
-    RCTDeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
+    DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
 
     expect(callOrder).toEqual(['second']);
   });
@@ -67,7 +67,7 @@ describe('BackHandler', () => {
       BackHandler.addEventListener('hardwareBackPress', handler2),
     );
 
-    RCTDeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
+    DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
 
     expect(callOrder).toEqual(['second', 'first']);
   });
@@ -83,7 +83,7 @@ describe('BackHandler', () => {
       BackHandler.addEventListener('hardwareBackPress', handler),
     );
 
-    RCTDeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 42});
+    DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 42});
 
     expect(receivedEvent).toBeInstanceOf(HardwareBackPressEventClass);
   });
@@ -99,7 +99,7 @@ describe('BackHandler', () => {
       BackHandler.addEventListener('hardwareBackPress', handler),
     );
 
-    RCTDeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 42});
+    DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 42});
 
     expect(receivedEvent?.timeStamp).toBe(42);
   });
@@ -116,7 +116,7 @@ describe('BackHandler', () => {
     );
 
     const before = performance.now();
-    RCTDeviceEventEmitter.emit('hardwareBackPress', null);
+    DeviceEventEmitter.emit('hardwareBackPress', null);
     const after = performance.now();
 
     const timeStamp = receivedEvent?.timeStamp;
@@ -137,7 +137,7 @@ describe('BackHandler', () => {
     const sub = BackHandler.addEventListener('hardwareBackPress', handler);
     sub.remove();
 
-    RCTDeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
+    DeviceEventEmitter.emit('hardwareBackPress', {timeStamp: 100});
 
     expect(called).toBe(false);
   });

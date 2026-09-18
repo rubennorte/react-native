@@ -12,11 +12,7 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
-import type {
-  NativePointerEvent,
-  PointerEvent,
-} from 'react-native/Libraries/Types/CoreEventTypes';
-import type {ReadOnlyNodeWithEventTarget} from 'react-native/src/private/webapis/dom/nodes/ReadOnlyNode';
+import type {NativePointerEvent, PointerEvent} from 'react-native';
 
 import * as Fantom from '@react-native/fantom';
 import * as React from 'react';
@@ -25,7 +21,7 @@ import * as ReactNativeFeatureFlags from 'react-native/src/private/featureflags/
 import Event from 'react-native/src/private/webapis/dom/events/Event';
 
 // Temporary cast until ReadOnlyNode extends EventTarget ungated.
-function asEventTarget(node: ?interface {}): ReadOnlyNodeWithEventTarget {
+function asEventTarget(node: ?interface {}): EventTarget {
   if (node == null) {
     throw new Error('Expected non-null node');
   }
