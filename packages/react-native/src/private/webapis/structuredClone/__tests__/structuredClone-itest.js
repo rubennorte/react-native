@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @fantom_flags enableIntersectionObserverByDefault:true
  * @flow strict-local
  * @format
  */
@@ -18,7 +19,6 @@ import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {View} from 'react-native';
-import setUpIntersectionObserver from 'react-native/src/private/setup/setUpIntersectionObserver';
 import setUpMutationObserver from 'react-native/src/private/setup/setUpMutationObserver';
 import DOMException from 'react-native/src/private/webapis/errors/DOMException';
 import IntersectionObserver from 'react-native/src/private/webapis/intersectionobserver/IntersectionObserver';
@@ -26,7 +26,6 @@ import IntersectionObserverEntry from 'react-native/src/private/webapis/intersec
 import MutationObserver from 'react-native/src/private/webapis/mutationobserver/MutationObserver';
 import structuredClone from 'react-native/src/private/webapis/structuredClone/structuredClone';
 
-setUpIntersectionObserver();
 setUpMutationObserver();
 
 function expectDataCloneError(fn: () => unknown) {

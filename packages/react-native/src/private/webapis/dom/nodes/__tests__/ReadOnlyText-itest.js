@@ -21,7 +21,7 @@ import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {unstable_NativeText as NativeText} from 'react-native';
-import * as ReactNativeFeatureFlags from 'react-native/src/private/featureflags/ReactNativeFeatureFlags';
+import {ReactNativeFeatureFlags} from 'react-native/react-private-interface';
 import ReadOnlyText from 'react-native/src/private/webapis/dom/nodes/ReadOnlyText';
 
 function ensureReadOnlyText(value: unknown): ReadOnlyText {

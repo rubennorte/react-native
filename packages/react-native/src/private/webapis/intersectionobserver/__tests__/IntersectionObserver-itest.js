@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @fantom_flags enableIntersectionObserverByDefault:true
  * @flow strict-local
  * @format
  */
@@ -20,12 +21,9 @@ import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import setUpIntersectionObserver from 'react-native/src/private/setup/setUpIntersectionObserver';
 
 declare const IntersectionObserver: Class<IntersectionObserverType>;
 declare const IntersectionObserverEntry: Class<IntersectionObserverEntryType>;
-
-setUpIntersectionObserver();
 
 export function expectRectEquals(
   rect: DOMRectReadOnly,
