@@ -14,13 +14,13 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import type {HostInstance} from 'react-native';
 import type {AccessibilityProps} from 'react-native';
 
+import accessibilityPropsSuite from '../../../../src/private/__tests__/utilities/accessibilityPropsSuite';
 import * as Fantom from '@react-native/fantom';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {Pressable} from 'react-native';
 import {PlatformColor, Text} from 'react-native';
-import accessibilityPropsSuite from 'react-native/src/private/__tests__/utilities/accessibilityPropsSuite';
 
 describe('<Pressable>', () => {
   describe('props', () => {
