@@ -13,11 +13,11 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import type {Root} from '@react-native/fantom';
 import type {HostInstance} from 'react-native';
 
+import NativeFantom from '../../../../packages/react-native/src/private/testing/fantom/specs/NativeFantom';
 import * as Fantom from '@react-native/fantom';
 import * as React from 'react';
 import {createRef} from 'react';
 import {LogBox, Modal, ScrollView, Text, TextInput, View} from 'react-native';
-import NativeFantom from 'react-native/src/private/testing/fantom/specs/NativeFantom';
 
 function ensureHostInstance(value: HostInstance | null): HostInstance {
   if (value == null) {

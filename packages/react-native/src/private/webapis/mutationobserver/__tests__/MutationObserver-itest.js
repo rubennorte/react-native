@@ -4,15 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @fantom_flags enableMutationObserverByDefault:true
  * @flow strict-local
  * @format
  */
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
+import type MutationObserverType from '../MutationObserver';
+import type MutationRecordType from '../MutationRecord';
 import type {HostInstance} from 'react-native';
-import type MutationObserverType from 'react-native/src/private/webapis/mutationobserver/MutationObserver';
-import type MutationRecordType from 'react-native/src/private/webapis/mutationobserver/MutationRecord';
 
 import ensureInstance from '../../../__tests__/utilities/ensureInstance';
 import {createShadowNodeReferenceCountingRef} from '../../../__tests__/utilities/ShadowNodeReferenceCounter';
@@ -21,12 +22,9 @@ import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {View} from 'react-native';
-import setUpMutationObserver from 'react-native/src/private/setup/setUpMutationObserver';
 
 declare const MutationObserver: Class<MutationObserverType>;
 declare const MutationRecord: Class<MutationRecordType>;
-
-setUpMutationObserver();
 
 function ensureMutationRecordArray(
   value: unknown,

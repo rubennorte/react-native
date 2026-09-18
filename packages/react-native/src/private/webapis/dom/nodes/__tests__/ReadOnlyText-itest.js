@@ -15,6 +15,7 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import type {HostInstance} from 'react-native';
 
 import ensureInstance from '../../../../__tests__/utilities/ensureInstance';
+import ReadOnlyText from '../ReadOnlyText';
 import * as Fantom from '@react-native/fantom';
 import invariant from 'invariant';
 import nullthrows from 'nullthrows';
@@ -22,7 +23,6 @@ import * as React from 'react';
 import {createRef} from 'react';
 import {unstable_NativeText as NativeText} from 'react-native';
 import {ReactNativeFeatureFlags} from 'react-native/react-private-interface';
-import ReadOnlyText from 'react-native/src/private/webapis/dom/nodes/ReadOnlyText';
 
 function ensureReadOnlyText(value: unknown): ReadOnlyText {
   return ensureInstance(value, ReadOnlyText);

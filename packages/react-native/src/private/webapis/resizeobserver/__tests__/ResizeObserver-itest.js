@@ -11,10 +11,10 @@
 
 import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 
+import type ResizeObserverType from '../ResizeObserver';
+import type ResizeObserverEntryType from '../ResizeObserverEntry';
+import type ResizeObserverSizeType from '../ResizeObserverSize';
 import type {HostInstance} from 'react-native';
-import type ResizeObserverType from 'react-native/src/private/webapis/resizeobserver/ResizeObserver';
-import type ResizeObserverEntryType from 'react-native/src/private/webapis/resizeobserver/ResizeObserverEntry';
-import type ResizeObserverSizeType from 'react-native/src/private/webapis/resizeobserver/ResizeObserverSize';
 
 import {createShadowNodeReferenceCountingRef} from '../../../__tests__/utilities/ShadowNodeReferenceCounter';
 import * as Fantom from '@react-native/fantom';
@@ -22,7 +22,6 @@ import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {View} from 'react-native';
-import setUpResizeObserver from 'react-native/src/private/setup/setUpResizeObserver';
 
 declare const ResizeObserver: Class<ResizeObserverType>;
 declare const ResizeObserverEntry: Class<ResizeObserverEntryType>;
@@ -32,8 +31,6 @@ type ResizeObserverMockCallback = JestMockFn<
   [ReadonlyArray<ResizeObserverEntry>, ResizeObserver],
   unknown,
 >;
-
-setUpResizeObserver();
 
 function expectEntrySizes(
   entry: ResizeObserverEntry,

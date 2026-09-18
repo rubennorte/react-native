@@ -13,16 +13,16 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import type {HostInstance} from 'react-native';
 import type {AccessibilityProps} from 'react-native';
 
+import accessibilityPropsSuite, {
+  rolePropSuite,
+} from '../../../src/private/__tests__/utilities/accessibilityPropsSuite';
+import {testIDPropSuite} from '../../../src/private/__tests__/utilities/commonPropsSuite';
 import ensureInstance from '../../../src/private/__tests__/utilities/ensureInstance';
 import * as Fantom from '@react-native/fantom';
 import nullthrows from 'nullthrows';
 import * as React from 'react';
 import {createRef} from 'react';
 import {Text} from 'react-native';
-import accessibilityPropsSuite, {
-  rolePropSuite,
-} from 'react-native/src/private/__tests__/utilities/accessibilityPropsSuite';
-import {testIDPropSuite} from 'react-native/src/private/__tests__/utilities/commonPropsSuite';
 
 const TEST_TEXT = 'the text';
 

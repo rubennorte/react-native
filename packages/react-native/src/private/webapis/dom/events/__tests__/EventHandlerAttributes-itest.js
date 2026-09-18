@@ -15,7 +15,7 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import {
   getEventHandlerAttribute,
   setEventHandlerAttribute,
-} from 'react-native/src/private/webapis/dom/events/EventHandlerAttributes';
+} from '../EventHandlerAttributes';
 
 type EventCallback = (event: Event) => void;
 
