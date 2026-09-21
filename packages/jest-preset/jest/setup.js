@@ -176,3 +176,7 @@ mock(
   // $FlowFixMe[incompatible-type]
   'm#./mocks/Vibration',
 );
+mock(
+  'm#react-native/src/private/animated/NativeAnimatedHelper',
+  'm#./mocks/NativeAnimatedHelper',
+);
