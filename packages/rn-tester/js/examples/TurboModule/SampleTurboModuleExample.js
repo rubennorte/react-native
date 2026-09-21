@@ -11,12 +11,10 @@
 import type {EventSubscription, RootTag} from 'react-native';
 
 import RNTesterText from '../../components/RNTesterText';
+import NativeSampleTurboModule, {EnumInt} from './RNTesterSampleTurboModule';
 import styles from './TurboModuleExampleCommon';
 import * as React from 'react';
 import {FlatList, RootTagContext, TouchableOpacity, View} from 'react-native';
-import NativeSampleTurboModule, {
-  EnumInt,
-} from 'react-native/Libraries/TurboModule/samples/NativeSampleTurboModule';
 
 type State = {
   testResults: {
