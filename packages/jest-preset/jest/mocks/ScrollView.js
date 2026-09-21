@@ -10,7 +10,7 @@
 
 import typeof * as TmockComponent from '../mockComponent';
 import typeof * as TMockNativeMethods from '../MockNativeMethods';
-import typeof TScrollView from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import typeof {ScrollView as TScrollView} from 'react-native';
 import type {ScrollViewNativeProps} from 'react-native/Libraries/Components/ScrollView/ScrollViewNativeComponentType';
 
 import * as React from 'react';
