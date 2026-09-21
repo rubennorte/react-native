@@ -8,7 +8,7 @@
  * @format
  */
 
-import type {RefreshControlProps} from 'react-native/Libraries/Components/RefreshControl/RefreshControl';
+import type {RefreshControlProps} from 'react-native';
 import type {HostComponent} from 'react-native/src/private/types/HostComponent';
 
 import * as React from 'react';
