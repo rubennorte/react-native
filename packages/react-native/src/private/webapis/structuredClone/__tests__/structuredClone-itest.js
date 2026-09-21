@@ -6,6 +6,7 @@
  *
  * @fantom_flags enableIntersectionObserverByDefault:true
  * @fantom_flags enableMutationObserverByDefault:true
+ * @fantom_flags enableResizeObserverByDefault:true
  * @flow strict-local
  * @format
  */
@@ -37,6 +38,26 @@ function expectDataCloneError(fn: () => unknown) {
   }
 
   throw new Error('Expected function to throw DataCloneError, but it did not');
+}
+
+function createResizeObserverEntryForTest(): ResizeObserverEntry {
+  const ref = createRef<HostInstance>();
+  const root = Fantom.createRoot();
+  Fantom.runTask(() => {
+    root.render(<View style={{height: 10, width: 10}} ref={ref} />);
+  });
+
+  const target = ensureInstance(ref.current, HTMLElement);
+  const entries: Array<unknown> = [];
+  Fantom.runTask(() => {
+    const observer = new ResizeObserver((newEntries, self) => {
+      entries.push(...newEntries);
+      self.disconnect();
+    });
+    observer.observe(target);
+  });
+
+  return ensureInstance(entries[0], ResizeObserverEntry);
 }
 
 describe('structuredClone', () => {
@@ -434,6 +455,28 @@ describe('structuredClone', () => {
         });
 
         expectDataCloneError(() => structuredClone(records[0]));
+      });
+
+      it('does NOT clone ResizeObserver', () => {
+        expectDataCloneError(() =>
+          structuredClone(new ResizeObserver(() => {})),
+        );
+      });
+
+      it('does NOT clone ResizeObserverEntry', () => {
+        expectDataCloneError(() =>
+          structuredClone(createResizeObserverEntryForTest()),
+        );
+      });
+
+      it('does NOT clone ResizeObserverSize', () => {
+        const entry = createResizeObserverEntryForTest();
+        const size = ensureInstance(
+          entry.contentBoxSize[0],
+          ResizeObserverSize,
+        );
+
+        expectDataCloneError(() => structuredClone(size));
       });
     });
   });
