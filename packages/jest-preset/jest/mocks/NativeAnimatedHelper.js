@@ -8,6 +8,7 @@
  * @format
  */
 
+// $FlowFixMe[cannot-resolve-module]
 import typeof TNativeAnimatedHelper from 'react-native/src/private/animated/NativeAnimatedHelper';
 
 const NativeAnimatedHelper = jest.requireActual<{
