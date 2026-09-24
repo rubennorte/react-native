@@ -17,6 +17,7 @@ Map {
 'use strict';
 
 const {NativeComponentRegistry} = require('react-native');
+const {processColorArray} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'ArrayPropsNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
@@ -27,7 +28,7 @@ export const __INTERNAL_VIEW_CONFIG = {
     progress: true,
     radii: true,
     colors: {
-      process: require('react-native/unstable-internals-do-not-use').processColorArray
+      process: processColorArray
     },
     srcs: true,
     points: true,
@@ -92,12 +93,13 @@ Map {
 'use strict';
 
 const {NativeComponentRegistry} = require('react-native');
+const {colorAttribute} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'ColorPropNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"ColorPropNativeComponentView\\",
   validAttributes: {
-    tintColor: require('react-native/unstable-internals-do-not-use').colorAttribute
+    tintColor: colorAttribute
   }
 };
 export default NativeComponentRegistry.get(nativeComponentName, () => __INTERNAL_VIEW_CONFIG);
@@ -210,8 +212,8 @@ Map {
 
 'use strict';
 
-const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 const {NativeComponentRegistry} = require('react-native');
+const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'EventNestedObjectPropsNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
@@ -252,8 +254,8 @@ Map {
 
 'use strict';
 
-const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 const {NativeComponentRegistry} = require('react-native');
+const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'EventPropsNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
@@ -358,14 +360,14 @@ Map {
 
 'use strict';
 
-const {NativeComponentRegistry} = require('react-native');
+const {Image, NativeComponentRegistry} = require('react-native');
 
 let nativeComponentName = 'ImagePropNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"ImagePropNativeComponentView\\",
   validAttributes: {
     thumbImage: {
-      process: require('react-native').Image.resolveAssetSource
+      process: Image.resolveAssetSource
     }
   }
 };
@@ -422,8 +424,8 @@ Map {
 
 'use strict';
 
-const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 const {NativeComponentRegistry} = require('react-native');
+const {ConditionallyIgnoredEventHandlers} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'RCTInterfaceOnlyComponent';
 export const __INTERNAL_VIEW_CONFIG = {
@@ -494,19 +496,20 @@ Map {
 
 'use strict';
 
-const {NativeComponentRegistry} = require('react-native');
+const {Image, NativeComponentRegistry} = require('react-native');
+const {colorAttribute, pointsDiffer} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'MultiNativePropNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"MultiNativePropNativeComponentView\\",
   validAttributes: {
     thumbImage: {
-      process: require('react-native').Image.resolveAssetSource
+      process: Image.resolveAssetSource
     },
-    color: require('react-native/unstable-internals-do-not-use').colorAttribute,
-    thumbTintColor: require('react-native/unstable-internals-do-not-use').colorAttribute,
+    color: colorAttribute,
+    thumbTintColor: colorAttribute,
     point: {
-      diff: require('react-native/unstable-internals-do-not-use').pointsDiffer
+      diff: pointsDiffer
     }
   }
 };
@@ -592,13 +595,14 @@ Map {
 'use strict';
 
 const {NativeComponentRegistry} = require('react-native');
+const {pointsDiffer} = require('react-native/unstable-internals-do-not-use');
 
 let nativeComponentName = 'PointPropNativeComponentView';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"PointPropNativeComponentView\\",
   validAttributes: {
     startPoint: {
-      diff: require('react-native/unstable-internals-do-not-use').pointsDiffer
+      diff: pointsDiffer
     }
   }
 };

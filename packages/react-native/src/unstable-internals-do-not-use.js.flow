@@ -20,6 +20,7 @@ export {colorAttribute} from '../Libraries/Components/View/ReactNativeStyleAttri
 export {ConditionallyIgnoredEventHandlers} from '../Libraries/NativeComponent/ViewConfigIgnore';
 export {customDirectEventTypes} from '../Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 export {default as DevLoadingView} from '../Libraries/Utilities/DevLoadingView';
+export {dispatchCommand} from '../Libraries/ReactNative/RendererProxy';
 export {default as getDevServer} from '../Libraries/Core/Devtools/getDevServer';
 export {default as HMRClient} from '../Libraries/Utilities/HMRClient';
 export {default as NativeExceptionsManager} from '../Libraries/Core/NativeExceptionsManager';

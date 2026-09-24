@@ -229,6 +229,7 @@ export const PressabilityDebugView: React.ComponentType<PressabilityDebugViewPro
 
 /** Renderer APIs used by generated Codegen modules. */
 export * as Renderer from '../types_generated/Libraries/ReactNative/RendererImplementation';
+export {dispatchCommand} from '../types_generated/Libraries/ReactNative/RendererImplementation';
 
 // #endregion
 // #region Codegen view config helpers

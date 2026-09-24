@@ -100,14 +100,12 @@ interface NativeCommands {
   +scrollTo: (viewRef: React.ElementRef<NativeType>, y: Int32, animated: boolean) => void,
 }
 const {
-  ConditionallyIgnoredEventHandlers
-} = require('react-native/unstable-internals-do-not-use');
-const {
   NativeComponentRegistry
 } = require('react-native');
 const {
-  Renderer
-} = require(\\"react-native/unstable-internals-do-not-use\\");
+  ConditionallyIgnoredEventHandlers,
+  dispatchCommand
+} = require('react-native/unstable-internals-do-not-use');
 let nativeComponentName = 'RCTModule';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"RCTModule\\",
@@ -135,10 +133,10 @@ export const __INTERNAL_VIEW_CONFIG = {
 export default NativeComponentRegistry.get(nativeComponentName, () => __INTERNAL_VIEW_CONFIG);
 export const Commands = {
   hotspotUpdate(ref, x, y) {
-    Renderer.dispatchCommand(ref, \\"hotspotUpdate\\", [x, y]);
+    dispatchCommand(ref, \\"hotspotUpdate\\", [x, y]);
   },
   scrollTo(ref, y, animated) {
-    Renderer.dispatchCommand(ref, \\"scrollTo\\", [y, animated]);
+    dispatchCommand(ref, \\"scrollTo\\", [y, animated]);
   }
 };"
 `;
@@ -165,14 +163,12 @@ interface NativeCommands {
   +scrollTo: (viewRef: React.ElementRef<NativeType>, y: Int32, animated: boolean) => void,
 }
 const {
-  ConditionallyIgnoredEventHandlers
-} = require('react-native/unstable-internals-do-not-use');
-const {
   NativeComponentRegistry
 } = require('react-native');
 const {
-  Renderer
-} = require(\\"react-native/unstable-internals-do-not-use\\");
+  ConditionallyIgnoredEventHandlers,
+  dispatchCommand
+} = require('react-native/unstable-internals-do-not-use');
 let nativeComponentName = 'RCTModule';
 export const __INTERNAL_VIEW_CONFIG = {
   uiViewClassName: \\"RCTModule\\",
@@ -200,10 +196,10 @@ export const __INTERNAL_VIEW_CONFIG = {
 export default NativeComponentRegistry.get(nativeComponentName, () => __INTERNAL_VIEW_CONFIG);
 export const Commands = {
   hotspotUpdate(ref, x, y) {
-    Renderer.dispatchCommand(ref, \\"hotspotUpdate\\", [x, y]);
+    dispatchCommand(ref, \\"hotspotUpdate\\", [x, y]);
   },
   scrollTo(ref, y, animated) {
-    Renderer.dispatchCommand(ref, \\"scrollTo\\", [y, animated]);
+    dispatchCommand(ref, \\"scrollTo\\", [y, animated]);
   }
 };"
 `;

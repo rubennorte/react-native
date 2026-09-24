@@ -50,6 +50,7 @@ import typeof NativeSourceCode from '../Libraries/NativeModules/specs/NativeSour
 import typeof {PressabilityDebugView} from '../Libraries/Pressability/PressabilityDebug';
 import typeof AppContainer from '../Libraries/ReactNative/AppContainer';
 import typeof * as Renderer from '../Libraries/ReactNative/RendererProxy';
+import typeof {dispatchCommand} from '../Libraries/ReactNative/RendererProxy';
 import typeof {customDirectEventTypes} from '../Libraries/Renderer/shims/ReactNativeViewConfigRegistry';
 import typeof processColorArray from '../Libraries/StyleSheet/processColorArray';
 import typeof DevLoadingView from '../Libraries/Utilities/DevLoadingView';
@@ -76,6 +77,9 @@ module.exports = {
     return require('../Libraries/Renderer/shims/ReactNativeViewConfigRegistry')
       .customDirectEventTypes;
   },
+  get dispatchCommand(): dispatchCommand {
+    return require('../Libraries/ReactNative/RendererProxy').dispatchCommand;
+  },
   get DevLoadingView(): DevLoadingView {
     return require('../Libraries/Utilities/DevLoadingView').default;
   },
@@ -83,7 +87,10 @@ module.exports = {
     return require('../Libraries/Core/Devtools/getDevServer').default;
   },
   get HMRClient(): HMRClient {
-    return require('../Libraries/Utilities/HMRClient').default;
+    if (__DEV__) {
+      return require('../Libraries/Utilities/HMRClient').default;
+    }
+    return require('../Libraries/Utilities/HMRClientProdShim').default;
   },
   get NativeExceptionsManager(): NativeExceptionsManager {
     return require('../Libraries/Core/NativeExceptionsManager').default;
