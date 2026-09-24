@@ -8,7 +8,9 @@
  * @format
  */
 
-import NativeExceptionsManager from 'react-native/Libraries/Core/NativeExceptionsManager';
+const NativeExceptionsManager = jest.requireMock(
+  'react-native/Libraries/Core/NativeExceptionsManager',
+).default;
 
 test('NativeAnimatedHelper is a mock', () => {
   const consoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -39,4 +41,16 @@ test('NativeExceptionsManager is a mock', () => {
   expect(jest.isMockFunction(NativeExceptionsManager.reportException)).toBe(
     true,
   );
+});
+
+test('native component mocks work with a partial react-native mock', () => {
+  jest.isolateModules(() => {
+    jest.doMock('react-native', () => ({}));
+
+    expect(() => {
+      jest.requireActual<unknown>('../RefreshControlMock');
+      jest.requireActual<unknown>('../mocks/RefreshControl');
+      jest.requireActual<unknown>('../mocks/ScrollView');
+    }).not.toThrow();
+  });
 });
