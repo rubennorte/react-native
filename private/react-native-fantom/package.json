@@ -8,7 +8,8 @@
     "build": "./build.sh"
   },
   "dependencies": {
-    "babel-plugin-istanbul": "^7.0.0"
+    "babel-plugin-istanbul": "^7.0.0",
+    "pngjs": "7.0.0"
   },
   "devDependencies": {
     "@expo-google-fonts/noto-color-emoji": "0.4.7",
