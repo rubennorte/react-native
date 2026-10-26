@@ -90,7 +90,7 @@ component StatusBar() {
 component Header() {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>Feed</Text>
+      <Text style={styles.headerTitle}>Feed!</Text>
       <View style={styles.headerButton}>
         <Text style={styles.headerButtonIcon}>♥</Text>
         <View style={styles.badge}>
