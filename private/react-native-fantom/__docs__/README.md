@@ -99,6 +99,11 @@ values. If another root is still alive and the new metrics differ from the
 current global dimensions, Fantom applies the new values and emits a warning.
 Call `root.destroy()` when a root is no longer needed.
 
+Each root also uses its `fontScale` for native text and text-input measurement,
+including line heights and wrapping. `allowFontScaling={false}` opts a component
+out, and `maxFontSizeMultiplier` caps its scale. Existing roots retain their own
+native font scale when a new root changes the global display metrics.
+
 For a full API reference, please see the [inline documentation](../src/index.js)
 defined for the methods in the `@react-native/fantom` [module](../src/index.js).
 
@@ -714,3 +719,12 @@ The runner then follows these steps:
   [React Native Feature Flags](../../../packages/react-native/src/private/featureflags/__docs__/README.md)
   system, via the `@fantom_flags` pragmas defined in the docblock for test
   files.
+
+## Text measurement
+
+Fantom always measures intrinsic `Text` and `TextInput` sizes so layout tests
+exercise wrapping and font scaling without extra setup. Measurement and painting
+share Skia and bundled fonts to give tests the same layout on every host.
+
+See [Rendering](rendering.md) for font selection, font scaling, native build
+dependencies and cross-platform raster configuration.
