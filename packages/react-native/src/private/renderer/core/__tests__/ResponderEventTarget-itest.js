@@ -14,7 +14,6 @@ import '@react-native/fantom/src/setUpDefaultReactNativeEnvironment';
 import * as Fantom from '@react-native/fantom';
 import * as React from 'react';
 import {View} from 'react-native';
-import {ReactNativeFeatureFlags} from 'react-native/react-private-interface';
 
 // Helpers for common touch event payloads
 function touchStart(identifier: number = 0): {
@@ -133,67 +132,60 @@ describe('Responder System', () => {
     expect(onResponderRelease).toHaveBeenCalledTimes(1);
   });
 
-  // TODO(react/react#38006): run this with the flag on too once the synced
-  // renderer stops dropping events whose target is null.
-  (ReactNativeFeatureFlags.enableNativeEventTargetEventDispatching()
-    ? it.skip
-    : it)(
-    'releases the responder when the touched view unmounts before the touch ends',
-    () => {
-      const root = Fantom.createRoot();
-      const firstRef = React.createRef<React.ElementRef<typeof View>>();
-      const secondRef = React.createRef<React.ElementRef<typeof View>>();
-      const onFirstResponderGrant = jest.fn();
-      const onSecondResponderGrant = jest.fn();
+  it('releases the responder when the touched view unmounts before the touch ends', () => {
+    const root = Fantom.createRoot();
+    const firstRef = React.createRef<React.ElementRef<typeof View>>();
+    const secondRef = React.createRef<React.ElementRef<typeof View>>();
+    const onFirstResponderGrant = jest.fn();
+    const onSecondResponderGrant = jest.fn();
 
-      Fantom.runTask(() => {
-        root.render(
-          <View
-            key="first"
-            ref={firstRef}
-            onStartShouldSetResponder={() => true}
-            onResponderGrant={onFirstResponderGrant}
-          />,
-        );
-      });
+    Fantom.runTask(() => {
+      root.render(
+        <View
+          key="first"
+          ref={firstRef}
+          onStartShouldSetResponder={() => true}
+          onResponderGrant={onFirstResponderGrant}
+        />,
+      );
+    });
 
-      Fantom.dispatchNativeEvent(firstRef, 'onTouchStart', touchStart(), {
-        category: Fantom.NativeEventCategory.Discrete,
-      });
+    Fantom.dispatchNativeEvent(firstRef, 'onTouchStart', touchStart(), {
+      category: Fantom.NativeEventCategory.Discrete,
+    });
 
-      expect(onFirstResponderGrant).toHaveBeenCalledTimes(1);
+    expect(onFirstResponderGrant).toHaveBeenCalledTimes(1);
 
-      // Queue the touch end without flushing it, then unmount the view, so the
-      // event reaches JS without a target.
-      Fantom.enqueueNativeEvent(firstRef, 'onTouchEnd', touchEnd(), {
-        category: Fantom.NativeEventCategory.Discrete,
-      });
+    // Queue the touch end without flushing it, then unmount the view, so the
+    // event reaches JS without a target.
+    Fantom.enqueueNativeEvent(firstRef, 'onTouchEnd', touchEnd(), {
+      category: Fantom.NativeEventCategory.Discrete,
+    });
 
-      Fantom.runTask(() => {
-        root.render(
-          <View
-            key="second"
-            ref={secondRef}
-            onStartShouldSetResponder={() => true}
-            onResponderGrant={onSecondResponderGrant}
-          />,
-        );
-      });
+    Fantom.runTask(() => {
+      root.render(
+        <View
+          key="second"
+          ref={secondRef}
+          onStartShouldSetResponder={() => true}
+          onResponderGrant={onSecondResponderGrant}
+        />,
+      );
+    });
 
-      Fantom.flushAllNativeEvents();
+    Fantom.flushAllNativeEvents();
 
-      // The responder was released, so the next touch is granted
-      Fantom.dispatchNativeEvent(secondRef, 'onTouchStart', touchStart(), {
-        category: Fantom.NativeEventCategory.Discrete,
-      });
+    // The responder was released, so the next touch is granted
+    Fantom.dispatchNativeEvent(secondRef, 'onTouchStart', touchStart(), {
+      category: Fantom.NativeEventCategory.Discrete,
+    });
 
-      expect(onSecondResponderGrant).toHaveBeenCalledTimes(1);
+    expect(onSecondResponderGrant).toHaveBeenCalledTimes(1);
 
-      Fantom.dispatchNativeEvent(secondRef, 'onTouchEnd', touchEnd(), {
-        category: Fantom.NativeEventCategory.Discrete,
-      });
-    },
-  );
+    Fantom.dispatchNativeEvent(secondRef, 'onTouchEnd', touchEnd(), {
+      category: Fantom.NativeEventCategory.Discrete,
+    });
+  });
 
   it('dispatches responderTerminate on touch cancel', () => {
     const root = Fantom.createRoot();
